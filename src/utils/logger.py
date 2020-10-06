@@ -8,7 +8,7 @@ out_file = "/dev/null"
 err_file = "/dev/null"
 
 
-def out(string: str):
+def log_out(string: str):
     out_str = str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + "\t" + string + "\n")
     sys.stdout.write(out_str)
     sys.stderr.write(out_str)
@@ -18,7 +18,7 @@ def out(string: str):
         f.write(out_str)
 
 
-def err(string: str):
+def log_err(string: str):
     out_str = str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + "\t" + string + "\n")
     sys.stderr.write(out_str)
     with open(err_file, 'a') as f:
@@ -43,4 +43,4 @@ def set_err(err_f: str):
 
 if __name__ == "__main__":
     set_out("log_out.log")
-    out("hahaha")
+    log_out("hahaha")

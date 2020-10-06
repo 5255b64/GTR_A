@@ -60,11 +60,12 @@ def getallfile(path):
 
 def cp(src: str, dest: str):
     if not os.path.exists(src):
-        logger.err("复制的源文件不存在:\t" + src)
-        return
+        logger.log_err("复制的源文件不存在:\t" + src)
+        return False
 
     if os.path.exists(dest):
-        rm(dest)
+        logger.log_err("复制的目标文件已存在 不进行覆盖:\t" + dest)
+        return False
 
     if os.path.isfile(src):
         check_file_exists(dest)
@@ -72,6 +73,7 @@ def cp(src: str, dest: str):
     else:
         # check_path_exists(dest)
         shutil.copytree(src, dest)
+    return True
 
 
 def rm(src: str):
@@ -80,6 +82,11 @@ def rm(src: str):
             os.remove(src)
         else:
             shutil.rmtree(src)
+
+
+def mv(src: str, dest: str):
+    if cp(src, dest):
+        rm(src)
 
 
 if __name__ == "__main__":

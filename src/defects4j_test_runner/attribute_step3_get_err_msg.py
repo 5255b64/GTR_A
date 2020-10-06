@@ -6,7 +6,7 @@
 """
 
 from interface.perl import if_perl_RunTestcasesWithJavaagent
-from src.CONFIG import TMP_ROOT_FOLDER
+from src.CONFIG import TMP_FOLDER
 from src.utils import file_helper
 
 
@@ -57,11 +57,11 @@ def run(input_addr: str, output_err_log_addr: str, output_alltest_path: str, tmp
 
 if __name__ == "__main__":
     # output_junit_log_addr = TMP_ROOT_FOLDER + "/junit_log.log"
-    output_err_log_addr = TMP_ROOT_FOLDER + "/err_log.log"
+    output_err_log_addr = TMP_FOLDER + "/err_log.log"
     # file_helper.check_file_exists(output_junit_log_addr)
-    input_addr = TMP_ROOT_FOLDER + "/testsuite"
-    tmp_root_fold = TMP_ROOT_FOLDER
-    output_alltest_path = TMP_ROOT_FOLDER + "/alltests.log"
+    input_addr = TMP_FOLDER + "/testsuite"
+    tmp_root_fold = TMP_FOLDER
+    output_alltest_path = TMP_FOLDER + "/alltests.log"
 
     run(input_addr=input_addr,
         project_id="Closure", version_num=1, bf_type="f",

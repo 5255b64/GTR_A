@@ -1,0 +1,2 @@
+export DEFECT4J_PATH=/home/gx/Documents/TestMinimization/GTR_A/lib/defects4j_proj
+export PATH=$PATH:$DEFECT4J_PATH/framework/bin:$DEFECT4J_PATH/framework/util

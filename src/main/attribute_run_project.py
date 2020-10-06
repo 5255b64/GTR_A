@@ -12,8 +12,8 @@ import threading
 import time
 import traceback
 
-from src.CONFIG import TMP_ROOT_FOLDER, PROJ_BUG_NUM_DICT, RESULT_OUTPUT_ADDR, \
-    RESULT_MIDDLE_DATA_ATTRIBUTE_PATH, CHECKOUT_ROOT_FOLDER, NUM_PROCESS_ATTRITUBE_VERSION_LEVEL
+from src.CONFIG import TMP_FOLDER, PROJ_VERSION_NUM, RESULT_OUTPUT_ADDR, \
+    RESULT_MIDDLE_DATA_ATTRIBUTE_PATH, CHECKOUT_FOLDER, NUM_PROCESS_ATTRITUBE_VERSION_LEVEL
 from src.attribute_collect import attribute_run_version
 from src.utils import logger
 
@@ -22,13 +22,13 @@ def fun_process(project_id: str, version_num: int, suite_src: str):
     version_name = project_id + "-" + str(version_num) + "-" + suite_src
 
     # 输出日志
-    logger.out(version_name + "\tSTART")
+    logger.log_out(version_name + "\tSTART")
     # logger.err(version_name + "\tSTART")
 
     # 超时检测机制：使用thread.join 线程阻塞 达到timeout时自动结束
     # 根据是否有有效输出 来判断是否存在超时（或者其他问题）
-    tmp_root_folder = TMP_ROOT_FOLDER + os.sep + project_id
-    checkout_root_folder = CHECKOUT_ROOT_FOLDER + os.sep + project_id
+    tmp_root_folder = TMP_FOLDER + os.sep + project_id
+    checkout_root_folder = CHECKOUT_FOLDER + os.sep + project_id
 
     time_stamp = time.time()
     try:
@@ -44,20 +44,20 @@ def fun_process(project_id: str, version_num: int, suite_src: str):
         )
     except(Exception):
         # traceback.print_exc()
-        logger.err(traceback.format_exc())
-        logger.out(version_name + "\tEXCEPTION")
+        logger.log_err(traceback.format_exc())
+        logger.log_out(version_name + "\tEXCEPTION")
     time_spend = time.time() - time_stamp
-    logger.out(version_name + "\t运行时间:\t" + '%.2fs' % time_spend + "\ts")
-    logger.out(version_name + "\tEND")
+    logger.log_out(version_name + "\t运行时间:\t" + '%.2fs' % time_spend + "\ts")
+    logger.log_out(version_name + "\tEND")
 
 
 def run(project_id: str, suite_src: str):
     if suite_src not in ["randoop", "evosuite", "mannual"]:
-        logger.out("suite_src必须为[\"randoop\",\"evosuite\",\"mannnual\"]\t" + suite_src)
+        logger.log_out("suite_src必须为[\"randoop\",\"evosuite\",\"mannnual\"]\t" + suite_src)
         # logger.err("suite_src必须为[\"randoop\",\"evosuite\",\"mannnual\"]\t" + suite_src)
         return
     pool = multiprocessing.Pool(processes=NUM_PROCESS_ATTRITUBE_VERSION_LEVEL)
-    for version_num in range(1, PROJ_BUG_NUM_DICT[project_id] + 1):
+    for version_num in range(1, PROJ_VERSION_NUM[project_id] + 1):
         pool.apply_async(
             # TODO
             fun_process,
@@ -108,16 +108,16 @@ def run(project_id: str, suite_src: str):
 
 def run_multi_process(project_id: str, suite_src: str):
     if suite_src not in ["randoop", "evosuite", "mannual"]:
-        logger.out("suite_src必须为[\"randoop\",\"evosuite\",\"mannnual\"]\t" + suite_src)
+        logger.log_out("suite_src必须为[\"randoop\",\"evosuite\",\"mannnual\"]\t" + suite_src)
         # logger.err("suite_src必须为[\"randoop\",\"evosuite\",\"mannnual\"]\t" + suite_src)
         return
-    for version_num in range(1, PROJ_BUG_NUM_DICT[project_id] + 1):
+    for version_num in range(1, PROJ_VERSION_NUM[project_id] + 1):
         version_name = project_id + "-" + str(version_num) + "-" + suite_src
 
         # 输出日志
         # sys.stdout.write(
         #     str(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) + "\tRunning\t" + version_name + "\n"))
-        logger.out(version_name + "\tSTART")
+        logger.log_out(version_name + "\tSTART")
         # logger.err(version_name + "\tSTART")
         try:
             # script_run_version.run(
@@ -130,7 +130,7 @@ def run_multi_process(project_id: str, suite_src: str):
 
             # 超时检测机制：使用thread.join 线程阻塞 达到timeout时自动结束
             # 根据是否有有效输出 来判断是否存在超时（或者其他问题）
-            tmp_root_folder = TMP_ROOT_FOLDER + os.sep + project_id
+            tmp_root_folder = TMP_FOLDER + os.sep + project_id
 
             def target():
                 attribute_run_version.run(
@@ -150,13 +150,13 @@ def run_multi_process(project_id: str, suite_src: str):
             thread.join()
             # thread.join(SCRIPT_VERSION_TIMEOUT)
             time_spend = time.time() - time_stamp
-            logger.out(version_name + "\t运行时间:\t" + '%.2fs' % time_spend + "\ts")
+            logger.log_out(version_name + "\t运行时间:\t" + '%.2fs' % time_spend + "\ts")
             if thread.isAlive():
-                logger.out(version_name + "\t运行超时！！！")
+                logger.log_out(version_name + "\t运行超时！！！")
         except Exception as e:
-            logger.err(version_name + "\tError\t" + str(e))
+            logger.log_err(version_name + "\tError\t" + str(e))
         finally:
-            logger.out(version_name + "\tEND")
+            logger.log_out(version_name + "\tEND")
             # logger.err(version_name + "\tEND")
 
         # 删除临时文件

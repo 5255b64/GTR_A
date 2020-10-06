@@ -6,8 +6,8 @@
 """
 import sys
 
-from src.CONFIG import DEFECTS4J_PRE_SOURCE_FILE_ADDR, BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT, \
-    DEFECTS4J_PROJ_BUILD_FILE_ADDR, TMP_ROOT_FOLDER
+from src.CONFIG import DEFECTS4J_ADD_PATH_FILE, BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT, \
+    DEFECTS4J_PROJ_BUILD_FILE_ADDR, TMP_FOLDER
 from src.utils import sub_call_hook, file_helper
 from src.utils.defects4j import check_proj_args
 
@@ -28,7 +28,7 @@ def run(project_id: str, version_num: int, bf_type: str, output_checkout_path: s
     is_passed = True
     if not check_proj_args(project_id, version_num, bf_type):
         is_passed = False
-        sys.stderr.write("if_bash_Defects4jGenTestcase.py:项目参数验证不通过")
+        sys.stderr.write("Defects4jGenTestcase.py:项目参数验证不通过")
 
     if is_passed:
         # 清空checkout路径
@@ -44,7 +44,7 @@ def run(project_id: str, version_num: int, bf_type: str, output_checkout_path: s
         cmd = ["bash",
                # "-x",
                BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT,
-               DEFECTS4J_PRE_SOURCE_FILE_ADDR,  # $1
+               DEFECTS4J_ADD_PATH_FILE,  # $1
                output_checkout_path,  # $2
                output_ant_log,  # $3
                ant_build_file_addr,  # $4
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     run(project_id="Lang",
         version_num=1,
         bf_type="f",
-        output_checkout_path=TMP_ROOT_FOLDER + "/xxx/checkout",
-        output_ant_log=TMP_ROOT_FOLDER + "/xxx/log",
+        output_checkout_path=TMP_FOLDER + "/xxx/checkout",
+        output_ant_log=TMP_FOLDER + "/xxx/log",
         ant_build_file_addr=DEFECTS4J_PROJ_BUILD_FILE_ADDR
         )

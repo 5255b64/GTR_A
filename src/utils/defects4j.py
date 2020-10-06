@@ -3,7 +3,7 @@ defects4j相关
 """
 import sys
 
-from src.CONFIG import PROJ_LIST, PROJ_BUG_NUM_DICT
+from src.CONFIG import PROJ_LIST, PROJ_VERSION_NUM
 
 
 def check_proj_args(project_id: str, version_num: int, bf_type: str):
@@ -17,7 +17,7 @@ def check_proj_args(project_id: str, version_num: int, bf_type: str):
     """
     pass_flag = True  # 表示项目参数是否正确
     if project_id in PROJ_LIST:
-        num_limit = PROJ_BUG_NUM_DICT[project_id]
+        num_limit = PROJ_VERSION_NUM[project_id]
         if version_num < 1 or version_num > num_limit:
             pass_flag = False
             sys.stderr.write("不存在项目版本号:" + project_id + "-" + str(version_num) + '\n')

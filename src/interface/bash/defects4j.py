@@ -1,15 +1,13 @@
-# TODO 重构
-
 """
 用于调用defects4j的脚本
 """
 
 from src.utils import sub_call_hook
-from src.CONFIG import BASH_DEFECT4J, DEFECTS4J_PRE_SOURCE_FILE_ADDR
+from src.CONFIG import BASH_DEFECT4J, DEFECTS4J_ADD_PATH_FILE
 
 
 def run(args: str):
-    cmd = ["bash", BASH_DEFECT4J, DEFECTS4J_PRE_SOURCE_FILE_ADDR] + args.split(" ")
+    cmd = ["bash", BASH_DEFECT4J, DEFECTS4J_ADD_PATH_FILE] + args.split(" ")
     # print(cmd)
     sub_call_hook.serial(cmd)
 

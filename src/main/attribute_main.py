@@ -4,7 +4,7 @@
 """
 import os
 import subprocess
-from src.CONFIG import RESULT_LOG_ADDR, MAIN_FOLDER, PYTHON
+from src.CONFIG import OUT_LOG_FOLDER, MAIN_FOLDER, PYTHON
 from src.attribute_collect import attribute_run_project
 from src.utils import file_helper, logger
 
@@ -20,8 +20,8 @@ def run(proj_list: list, suite_src: str):
             suite_src
         ]
         # print(" ".join(cmd))
-        out_log_addr = RESULT_LOG_ADDR + os.sep + project_id + "_stdout.log"
-        err_log_addr = RESULT_LOG_ADDR + os.sep + project_id + "_stderr.log"
+        out_log_addr = OUT_LOG_FOLDER + os.sep + project_id + "_stdout.log"
+        err_log_addr = OUT_LOG_FOLDER + os.sep + project_id + "_stderr.log"
         file_helper.check_file_exists(out_log_addr)
         file_helper.check_file_exists(err_log_addr)
         # with open(out_log_addr, "w") as stdout:

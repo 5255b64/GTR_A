@@ -4,20 +4,20 @@
 import os
 
 from src.utils import sub_call_hook, file_helper
-from src.CONFIG import PROJ_LIST
+from src.CONFIG import PROJ_LIST, TMP_FOLDER, CHECKOUT_FOLDER, TMP_LOG_FOLDER, TMP_TEST_FOLDER
 
 
-def clear(tmp_fold_addr: str):
-    """
-    @Deprecated
-    :param tmp_fold_addr:
-    :return:
-    """
-    # 清除目标位置的文件
-    for project_id in PROJ_LIST:
-        # cmd = ["rm", "-rf", tmp_fold_addr + os.sep + project_id]
-        # sub_call_hook.serial(" ".join(cmd))
-        file_helper.rm(tmp_fold_addr + os.sep + project_id)
-    # cmd = ["rm", "-rf", tmp_fold_addr + "/logs"]
-    # sub_call_hook.serial(" ".join(cmd))
-    file_helper.rm(tmp_fold_addr + "/logs")
+def clear_tmp_all():
+    file_helper.rm(TMP_FOLDER)
+
+
+def clear_tmp_checkout():
+    file_helper.rm(CHECKOUT_FOLDER)
+
+
+def clear_tmp_log():
+    file_helper.rm(TMP_LOG_FOLDER)
+
+
+def clear_tmp_test():
+    file_helper.rm(TMP_TEST_FOLDER)

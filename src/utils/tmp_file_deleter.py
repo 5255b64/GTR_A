@@ -17,7 +17,7 @@ def run():
             last_used_time_s = time.time()-os.stat(abs_dir).st_atime
             if last_used_time_s>SCRIPT_VERSION_TIMEOUT:
                 file_helper.rm(abs_dir)
-                logger.err("TMP FILE DELETED\t" + abs_dir)
+                logger.log_err("TMP FILE DELETED\t" + abs_dir)
 
 
 if __name__ == "__main__":

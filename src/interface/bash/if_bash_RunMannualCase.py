@@ -6,8 +6,8 @@
 """
 import sys
 
-from src.CONFIG import DEFECTS4J_PRE_SOURCE_FILE_ADDR, BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT, \
-    DEFECTS4J_PROJ_BUILD_FILE_ADDR, TMP_ROOT_FOLDER, BASH_RUN_MANNUAL_CASE
+from src.CONFIG import DEFECTS4J_ADD_PATH_FILE, BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT, \
+    DEFECTS4J_PROJ_BUILD_FILE_ADDR, TMP_FOLDER, BASH_RUN_MANNUAL_CASE
 from src.utils import sub_call_hook, file_helper
 from src.utils.defects4j import check_proj_args
 
@@ -26,7 +26,7 @@ def run(project_id: str, version_num: int, bf_type: str, output_checkout_path: s
     is_passed = True
     if not check_proj_args(project_id, version_num, bf_type):
         is_passed = False
-        sys.stderr.write("if_bash_Defects4jGenTestcase.py:项目参数验证不通过")
+        sys.stderr.write("Defects4jGenTestcase.py:项目参数验证不通过")
 
     if is_passed:
         # 清空checkout路径
@@ -40,12 +40,12 @@ def run(project_id: str, version_num: int, bf_type: str, output_checkout_path: s
         cmd = ["bash",
                # "-x",
                BASH_RUN_MANNUAL_CASE,
-               DEFECTS4J_PRE_SOURCE_FILE_ADDR,  # $1
+               DEFECTS4J_ADD_PATH_FILE,  # $1
                output_checkout_path,  # $2
                project_id,  # $3
                str(version_num),  # $4
                bf_type,  # 5
-               falling_test_addr, # 6
+               falling_test_addr,  # 6
                ]
         # print(" ".join(cmd))
         sub_call_hook.serial(cmd)

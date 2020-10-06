@@ -130,10 +130,10 @@ def fun_process(output_failtest_addr: str, output_file_name: str, testcase_name:
             )
 
             if not os.path.exists(destfile_addr):
-                logger.err(version_name + "\t" + str(counter) + "\t文件生成失败:dest.exec")
+                logger.log_err(version_name + "\t" + str(counter) + "\t文件生成失败:dest.exec")
                 # 保存ant输出文件 用于debug
                 if not os.path.exists(ant_build_file_addr):
-                    logger.err(version_name + "\t" + str(counter) + "\t文件生成失败:ant.log")
+                    logger.log_err(version_name + "\t" + str(counter) + "\t文件生成失败:ant.log")
                 else:
                     debug_ant_file_addr = DEBUG_ROOT_FOLDER + os.sep + project_id + os.sep + str(
                         version_num) + os.sep + str(counter) + "_ant.log"
@@ -178,9 +178,9 @@ def fun_process(output_failtest_addr: str, output_file_name: str, testcase_name:
                     break
             if not is_source_file_correct or not is_class_file_path_correct:
                 if not is_source_file_correct:
-                    logger.err(version_name + "\tSource文件路径出错:\t" + source_file)
+                    logger.log_err(version_name + "\tSource文件路径出错:\t" + source_file)
                 if not is_class_file_path_correct:
-                    logger.err(version_name + "\tClass文件路径出错:\t" + source_file)
+                    logger.log_err(version_name + "\tClass文件路径出错:\t" + source_file)
                 return False, testcase_name, output_failtest_addr, counter, retry_counter
 
             if_jar_jacococli.run(
@@ -234,7 +234,7 @@ def fun_process_callback(args):
         else:
             with open(output_failtest_addr, "a") as f:
                 f.write(testcase_name + os.linesep)
-            logger.err("执行失败:\t" + str(counter) + "\t重试次数:\t" + str(retry_counter) + "\t" + output_failtest_addr)
+            logger.log_err("执行失败:\t" + str(counter) + "\t重试次数:\t" + str(retry_counter) + "\t" + output_failtest_addr)
     else:
         # logger.err("执行成功:\t" + str(counter) + "\t重试次数:\t" + str(retry_counter + 1) + "\t" + output_failtest_addr)
         pass
@@ -294,7 +294,7 @@ def run_multiprocess(output_path: str, project_id: str, version_num: int, bf_typ
     # 检查是否生成alltest 若未生成 则创建checkout
     if not os.path.exists(output_alltest_addr):
         if not os.path.exists(checkout_folder_path):
-            logger.err(version_name + "\tERROR\tcheckout不存在")
+            logger.log_err(version_name + "\tERROR\tcheckout不存在")
             return
         file_helper.cp(checkout_folder_path, tmp_checkout_addr)
         # 生成 空白 ant buiild blank xml file
@@ -446,7 +446,7 @@ def run(output_path: str, project_id: str, version_num: int, bf_type: str, tmp_r
     # 检查是否生成alltest 若未生成 则创建checkout
     if not os.path.exists(output_alltest_addr):
         if not os.path.exists(checkout_folder_path):
-            logger.err(version_name + "\tERROR\tcheckout不存在")
+            logger.log_err(version_name + "\tERROR\tcheckout不存在")
             return
         file_helper.cp(checkout_folder_path, tmp_checkout_addr)
         # 执行默认测试
@@ -529,4 +529,4 @@ if __name__ == "__main__":
         output_failtest_addr=output_failtest_addr,
     )
     time_spend = time.time() - time_stamp
-    logger.out("耗时\t" + '%.2fs' % time_spend)
+    logger.log_out("耗时\t" + '%.2fs' % time_spend)

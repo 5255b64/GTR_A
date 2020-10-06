@@ -120,9 +120,9 @@ def run(result_addr: str, middle_data_attribute_addr: str, tmp_root_folder: str,
             # bf_type=FIXED_BFTYPE_B,
             suite_src=suite_src)
         time_spend = time.time() - time_stamp
-        logger.out(version_name + "\t" + '%.2fs' % time_spend + "\t1）生成测试用例")
+        logger.log_out(version_name + "\t" + '%.2fs' % time_spend + "\t1）生成测试用例")
     else:
-        logger.out(version_name + "\tPASS\t1）生成测试用例")
+        logger.log_out(version_name + "\tPASS\t1）生成测试用例")
         pass
 
     #  2）测试用例 插桩执行 获取插桩特征
@@ -163,7 +163,7 @@ def run(result_addr: str, middle_data_attribute_addr: str, tmp_root_folder: str,
         )
 
     time_spend = time.time() - time_stamp
-    logger.out(version_name + "\t" + '%.2fs' % time_spend + "\t2）测试用例 插桩执行 获取插桩特征")
+    logger.log_out(version_name + "\t" + '%.2fs' % time_spend + "\t2）测试用例 插桩执行 获取插桩特征")
 
     #  3）测试用例 执行 获取err信息
     #       in:    测试用例（原始）
@@ -181,10 +181,10 @@ def run(result_addr: str, middle_data_attribute_addr: str, tmp_root_folder: str,
                                         output_alltest_path=output_alltest_path)
 
         time_spend = time.time() - time_stamp
-        logger.out(
+        logger.log_out(
             version_name + os.sep + "\t" + os.sep + '%.2fs' % time_spend + os.sep + "\t3.1）测试用例 执行 获取err_fixed信息")
     else:
-        logger.out(version_name + "\tPASS\t3.1）测试用例 执行 获取err_fixed信息")
+        logger.log_out(version_name + "\tPASS\t3.1）测试用例 执行 获取err_fixed信息")
 
     #  3.2)在buggy版本上执行
     if suite_src != "mannual":
@@ -197,9 +197,9 @@ def run(result_addr: str, middle_data_attribute_addr: str, tmp_root_folder: str,
                                         output_err_log_addr=middle_data_err_buggy_log_addr,
                                         output_alltest_path=output_alltest_path)
         time_spend = time.time() - time_stamp
-        logger.out(version_name + "\t" + '%.2fs' % time_spend + "\t3.2）测试用例 执行 获取err_buggy信息")
+        logger.log_out(version_name + "\t" + '%.2fs' % time_spend + "\t3.2）测试用例 执行 获取err_buggy信息")
     else:
-        logger.out(version_name + "\tPASS\t3.2）测试用例 执行 获取err_buggy信息")
+        logger.log_out(version_name + "\tPASS\t3.2）测试用例 执行 获取err_buggy信息")
 
     #  4) 聚类削减
     #       in:   junit log文件

@@ -1,8 +1,12 @@
 # TODO 重构
+"""
+针对一个version
+gen testsuite
+"""
 import glob
 
-from interface.bash import if_bash_Defects4jCheckout, if_bash_Defects4jGenTestcase
-from src.CONFIG import TMP_ROOT_FOLDER
+from interface.bash import Defects4jCheckout, Defects4jGenTestcase
+from src.CONFIG import TMP_FOLDER
 from src.utils import sub_call_hook, file_helper
 
 
@@ -33,23 +37,25 @@ def run(output_addr: str, tmp_root_fold: str, project_id: str, version_num: int,
 
     if suite_src == "mannual":
         # 获取手工测试用例
-        zip_testcase_addr = if_bash_Defects4jCheckout.run(project_id=project_id, version_num=version_num,
-                                                          bf_type=bf_type, suite_num=suite_num, suite_src=suite_src,
-                                                          output_addr=tmp_fold_addr)
+        zip_testcase_addr = Defects4jCheckout.run(project_id=project_id, version_num=version_num,
+                                                  bf_type=bf_type, suite_num=suite_num, suite_src=suite_src,
+                                                  output_addr=tmp_fold_addr)
     else:
         # 第三方工具生成测试用例
-        zip_testcase_addr = if_bash_Defects4jGenTestcase.run(project_id=project_id, version_num=version_num,
-                                                             bf_type=bf_type, suite_num=suite_num, test_id=test_id,
-                                                             budget=budget, suite_src=suite_src,
-                                                             output_addr=tmp_fold_addr)
+        zip_testcase_addr = Defects4jGenTestcase.run(project_id=project_id, version_num=version_num,
+                                                     bf_type=bf_type, suite_num=suite_num, test_id=test_id,
+                                                     budget=budget, suite_src=suite_src,
+                                                     output_addr=tmp_fold_addr)
     if str(zip_testcase_addr) == "-1":
         raise Exception("测试用例生成出错")
 
     # 解压出来的文件的保存地址
     unzip_file_addr = zip_testcase_addr + "/unzip_file"
 
-    cmd = ["mkdir", "-p", unzip_file_addr]
-    sub_call_hook.serial(cmd)
+    file_helper.check_file_exists(unzip_file_addr)
+    # cmd = ["mkdir", "-p", unzip_file_addr]
+    # sub_call_hook.serial(cmd)
+
     # 搜索所有.bz2压缩文件 并解压
     for bz2_filename in glob.glob(zip_testcase_addr + '/*.bz2'):
         # print(bz2_filename)
@@ -75,8 +81,8 @@ def run(output_addr: str, tmp_root_fold: str, project_id: str, version_num: int,
 
 
 if __name__ == "__main__":
-    output_unreduced_testsuite_addr = TMP_ROOT_FOLDER + "/testsuite"
-    tmp_root_folder = TMP_ROOT_FOLDER
+    output_unreduced_testsuite_addr = TMP_FOLDER + "/testsuite"
+    tmp_root_folder = TMP_FOLDER
 
     # cmd = ["rm", "-rf", output_unreduced_testsuite_addr]
     # sub_call_hook.serial(" ".join(cmd))
