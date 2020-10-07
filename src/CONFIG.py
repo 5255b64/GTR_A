@@ -111,19 +111,21 @@ PROJ_VERSION_NUM = {
     "Mockito": 38,
     "Time": 27
 }
-# # 每个项目的test代码文件根目录
+# # TODO 每个项目的test代码文件根目录
 PROJ_TEST_SOURCE_ADDR_LIST = [
     "src" + os.sep + "test" + os.sep + "java",
+    "src" + os.sep + "test",
     "test",
     "tests",
+    "gson" + os.sep + "src" + os.sep + "test" + os.sep + "java",
 ]
-# # 每个项目的src代码文件根目录
+# # TODO 每个项目的src代码文件根目录
 PROJ_SOURCE_ADDR_LIST = [
     "src" + os.sep + "main" + os.sep + "java",
     "src",
     "source",
 ]
-# # 每个项目的class文件根目录
+# # TODO 每个项目的class文件根目录
 PROJ_CLASSES_ADDR_LIST = [
     "buildSrc" + os.sep + "build" + os.sep + "classes",
     "target" + os.sep + "classes",
@@ -131,7 +133,7 @@ PROJ_CLASSES_ADDR_LIST = [
     "build",
 ]
 
-# # 每个项目的根包
+# # TODO 每个项目的根包
 PROJ_ROOT_PKG = {
     "Chart": "org.jfree.*",
     # "Closure": "com.google.javascript.*:com.google.debugging.*",
@@ -146,6 +148,7 @@ PROJ_ROOT_PKG = {
 # agent相关
 # # agent.jar文件位置
 JAVAAGENT_JAR_ADDR = JAR_FOLDER + os.sep + "jacoco.jar"
+# JAVAAGENT_JAR_ADDR = JAR_FOLDER + os.sep + "jacoco_blank.jar"
 JACOCOCLI_JAR_ADDR = JAR_FOLDER + os.sep + "jacococli.jar"
 
 # # agent参数前缀

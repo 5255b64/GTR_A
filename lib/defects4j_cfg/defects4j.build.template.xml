@@ -132,7 +132,7 @@ project-specific build file ("project_id"/"project_id".build.xml) for the
 <!--    <target name="run.dev.tests.withjavaagent" depends="compile.tests,update.all.tests" description="Run unit tests">-->
     <target name="run.dev.tests.withjavaagent" description="Run unit tests">
         <!-- <junit printsummary="yes" haltonfailure="no" haltonerror="no" fork="no" showOutput="true"> -->
-        <junit printsummary="yes" haltonfailure="no" haltonerror="no" fork="yes" forkmode="perBatch" showOutput="true">
+        <junit printsummary="yes" haltonfailure="no" haltonerror="no" fork="no" forkmode="perBatch" showOutput="true">
             <jvmarg value="$JAVAAGENT_ARGS_SYMBLE$" />
 <!--             <jvmarg value="-javaagent:/home/gx/Documents/TestMinimization/GTR_A/lib/jar/jacoco.jar=includes=org.apache.commons.lang3.*" /> -->
             <classpath>
@@ -147,7 +147,7 @@ project-specific build file ("project_id"/"project_id".build.xml) for the
             <sysproperty key="OUTFILE" value="${OUTFILE}"/>
             <formatter classname="edu.washington.cs.mut.testrunner.Formatter" usefile="false" />
             <test name="${test.entry.class}" methods="${test.entry.method}" if="test.entry.class" />
-            <batchtest unless="test.entry.class">
+            <batchtest unless="test.entry.class">yes
                 <fileset refid="all.manual.tests" />
             </batchtest>
         </junit>

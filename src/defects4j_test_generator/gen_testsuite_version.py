@@ -1,4 +1,3 @@
-# TODO 重构
 """
 针对一个version
 gen testsuite
@@ -7,13 +6,12 @@ import glob
 import os
 
 from interface.bash import Defects4jCheckout, Defects4jGenTestcase
-from src.CONFIG import TMP_FOLDER, TMP_TEST_FOLDER
+from src.CONFIG import TMP_FOLDER, TMP_TEST_FOLDER, PROJ_TEST_SOURCE_ADDR_LIST
 from src.utils import sub_call_hook, file_helper
+from utils import test_suite_fixer, bz2_helper
 
 
-#  1）生成测试用例
-#       out:   测试用例（原始）
-def run(output_addr: str, checkout_folder:str, project_id: str, version_num: int, bf_type: str,
+def run(output_addr: str, checkout_folder: str, project_id: str, version_num: int, bf_type: str,
         suite_num: str = "1", test_id: int = 1, budget: int = 20, suite_src: str = "randoop"):
     """
 
@@ -37,15 +35,28 @@ def run(output_addr: str, checkout_folder:str, project_id: str, version_num: int
     return_ouput_testcase_addr = None
 
     if suite_src == "mannual":
-        # TODO 获取手工测试用例
-        return_ouput_testcase_addr = Defects4jCheckout.run(
+        # 获取手工测试用例
+        # 先checkout 然后根据test可能的路径进行查找
+        Defects4jCheckout.run(
             project_id=project_id,
             version_num=version_num,
             bf_type=bf_type,
-            suite_num=suite_num,
-            suite_src=suite_src,
             output_addr=output_addr
         )
+        # 查找mannual测试用例
+        # 不同的项目 其测试用例的存储路径不同
+        wordking_directory = output_addr + os.sep + "checkout"
+
+        testcase_source_addr = None
+        for source_addr in PROJ_TEST_SOURCE_ADDR_LIST:
+            testcase_source_addr = wordking_directory + os.sep + source_addr
+            if os.path.exists(testcase_source_addr):
+                break
+        if testcase_source_addr is None:
+            raise Exception("引用了记录之外的项目:\t" + project_id + "-" + str(version_num))
+
+        return_ouput_testcase_addr = output_addr + os.sep + "mannual"
+        file_helper.cp(testcase_source_addr, return_ouput_testcase_addr)
     else:
         # 第三方工具生成测试用例
         # 默认会进行checkout
@@ -60,20 +71,27 @@ def run(output_addr: str, checkout_folder:str, project_id: str, version_num: int
             test_id=test_id,
             budget=budget
         )
+    # 修改所有测试用例 并压缩
+    # 修改测试用例
+    # for file in os.listdir(return_ouput_testcase_addr):
+    for file in file_helper.getallfile(return_ouput_testcase_addr):
+        if file.endswith(".java"):
+            bkb_file = file + ".bkb"
+            file_helper.cp(file, bkb_file)
+            test_suite_fixer.fun(input_file_addr=bkb_file, output_file_addr=file)
+    # 压缩
+    fixed_testsuite_address = output_addr + os.sep + suite_src + ".tar.bz2"
+    bz2_helper.compress(return_ouput_testcase_addr, fixed_testsuite_address)
 
-    return return_ouput_testcase_addr
+    return fixed_testsuite_address
 
 
 if __name__ == "__main__":
-    suite_src = "randoop"
+    suite_src = "mannual"
     project_id = "Lang"
     version_num = 1
     bf_type = "b"
     output_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + str(version_num) + bf_type
-
-    # 提前checkout
-    # Defects4jCheckout.run(project_id=project_id, version_num=version_num, bf_type=bf_type,
-    #     output_addr=output_addr)
 
     run(
         checkout_folder=output_addr,

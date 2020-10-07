@@ -42,14 +42,15 @@ def run(project_id: str, version_num: int, bf_type: str, output_addr: str = TMP_
         # print(" ".join(cmd))
         sub_call_hook.serial(cmd)
 
-        return checkout_addr
-
 
 if __name__ == "__main__":
     project_id = "Lang"
     version_num = 1
     bf_type = "b"
     output_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + str(version_num) + bf_type
-    result = run(project_id=project_id, version_num=version_num, bf_type=bf_type,
-                 output_addr=output_addr)
-    print(result)
+    run(
+        project_id=project_id,
+        version_num=version_num,
+        bf_type=bf_type,
+        output_addr=output_addr
+    )

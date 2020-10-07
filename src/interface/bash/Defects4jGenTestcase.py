@@ -17,6 +17,7 @@ from src.utils import sub_call_hook, file_helper
 from src.utils.defects4j import check_proj_args
 from src.CONFIG import DEFECTS4J_ADD_PATH_FILE, DEFECTS4J_PRE_INCLUDE_FILE_ADDR, \
     BASH_DEFECT4J_GEN_TESTCASE, TMP_TEST_FOLDER, DEFECTS4J_PROJ_ADDR
+from utils import bz2_helper
 
 
 def run(output_addr: str, checkout_folder: str, project_id: str, version_num: int, bf_type: str,
@@ -75,13 +76,17 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
         # 删除临时文件
         # file_helper.rm(tmp_folder)
 
-        # 将生成的测试用例压缩包 拷贝至浅层目录
+        # 将生成的测试用例压缩包 拷贝至浅层目录 并解压
         suite_src_file = testsuite_output_address + os.sep + project_id + os.sep + suite_src + os.sep + suite_num + os.sep + project_id + "-" + str(
             version_num) + bf_type + "-" + suite_src + "." + suite_num + ".tar.bz2"
         suite_dest_file = testsuite_output_address + os.sep + str(version_num) + bf_type + ".tar.bz2"
         file_helper.mv(src=suite_src_file, dest=suite_dest_file)
 
-        return testsuite_output_address
+        # 解压测试用例至临时文件夹
+        tmp_testsuite = testsuite_output_address + os.sep + "tmp_testsuite"
+        bz2_helper.unzip(output_addr=tmp_testsuite, intput_bz2_file_name=suite_dest_file)
+
+        return tmp_testsuite
     else:
         return None
 
@@ -95,9 +100,10 @@ if __name__ == "__main__":
     checkout_addr = output_addr
     result = run(
         output_addr=output_addr,
-        checkout_folder= checkout_addr,
+        checkout_folder=checkout_addr,
         project_id=project_id,
         version_num=version_num,
-        bf_type=bf_type
+        bf_type=bf_type,
+        suite_src=suite_src,
     )
     print(result)

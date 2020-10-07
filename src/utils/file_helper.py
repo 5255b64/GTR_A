@@ -64,8 +64,9 @@ def cp(src: str, dest: str):
         return False
 
     if os.path.exists(dest):
-        logger.log_err("复制的目标文件已存在 不进行覆盖:\t" + dest)
-        return False
+        # logger.log_err("复制的目标文件已存在 进行覆盖:\t" + dest)
+        rm(dest)
+        # return False
 
     if os.path.isfile(src):
         check_file_exists(dest)

@@ -16,15 +16,15 @@ init
 
 
 
-project_id=$4     # $3
-version_num=$5       # $4
-bf_type=$6           # $5
-suite_dir=$7           # $6
+project_id=$3     # $3
+version_num=$4       # $4
+bf_type=$5           # $5
+suite_dir=$6           # $6
 
 version_id=$version_num$bf_type
 
 # Checkout
-# echo defects4j checkout -p $project_id -v $version_id -w $suite_dir
+#echo defects4j checkout -p $project_id -v $version_id -w $suite_dir
 defects4j checkout -p $project_id -v $version_id -w $suite_dir
 
 # Compile

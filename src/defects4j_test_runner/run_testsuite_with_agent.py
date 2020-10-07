@@ -38,11 +38,11 @@ def run(checkout_addr: str, testsuite_addr: str, output_junit_log_addr: str, tmp
     """
     # 1）进行checkout（不需要 步骤2会自动生成）
 
-    # 2）生成.bz2测试用例
+    # 2）生成.bz2测试用例 对mannual情况做特殊处理
     # 目标测试用例文件 若已存在则不生成
-    testsuite = testsuite_addr + os.sep + suite_src + os.sep + str(version_num) + bf_type + ".tar.bz2"
+    # testsuite = testsuite_addr + os.sep + suite_src + os.sep + str(version_num) + bf_type + ".tar.bz2"
     # if not os.path.exists(testsuite):
-    gen_testsuite_version.run(
+    testsuite = gen_testsuite_version.run(
         checkout_folder=checkout_addr,
         output_addr=testsuite_addr,
         project_id=project_id,
@@ -107,7 +107,7 @@ def set_build_file(project_id: str, version_num: int, output_err_path: str, outp
 
 
 if __name__ == "__main__":
-    suite_src = "randoop"
+    suite_src = "mannual"
     project_id = "Lang"
     version_num = 1
     bf_type = "b"

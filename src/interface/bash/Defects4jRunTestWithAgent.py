@@ -85,8 +85,9 @@ def parser_test():
 def run_test():
     output_addr = "/tmp/tmp/log"
     checkout_addr = "/home/gx/Documents/TestMinimization/GTR_A/tmp/test/Lang/1b/"
-    testsuite_addr = "/home/gx/Documents/TestMinimization/GTR_A/tmp/test/Lang/1b/randoop/1b.tar.bz2"
-    build_file = "/home/gx/Documents/TestMinimization/GTR_A/lib/defects4j_cfg/defects4j.build.template.xml"
+    # testsuite_addr = "/home/gx/Documents/TestMinimization/GTR_A/tmp/test/Lang/1b/randoop/1b.tar.bz2"
+    testsuite_addr = "/home/gx/Documents/TestMinimization/GTR_A/tmp/test/Lang/1b/randoop.tar.bz2"
+    build_file = "/home/gx/Documents/TestMinimization/GTR_A/tmp/test/Lang/1b/build.xml"
     run(
         output_addr=output_addr,
         checkout_addr=checkout_addr,
