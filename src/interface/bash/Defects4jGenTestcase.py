@@ -19,11 +19,13 @@ from src.CONFIG import DEFECTS4J_ADD_PATH_FILE, DEFECTS4J_PRE_INCLUDE_FILE_ADDR,
     BASH_DEFECT4J_GEN_TESTCASE, TMP_TEST_FOLDER, DEFECTS4J_PROJ_ADDR
 
 
-def run(output_addr: str, project_id: str, version_num: int, bf_type: str, suite_num: str = "1", test_id: int = 1,
+def run(output_addr: str, checkout_folder: str, project_id: str, version_num: int, bf_type: str,
+        suite_num: str = "1", test_id: int = 1,
         budget: int = 20, suite_src: str = "randoop"):
     """
 
     :param output_addr:     测试用例输出地址
+    :param checkout_folder: checkout地址 若不存在checkout 则会自动生成
     :param project_id:      项目名（如Lang）
                             Generate tests for this project id. See Project module for available project IDs.
     :param version_num:     版本号 数字
@@ -46,9 +48,10 @@ def run(output_addr: str, project_id: str, version_num: int, bf_type: str, suite
 
     if is_passed:
         testsuite_output_address = output_addr + os.sep + suite_src
-        tmp_folder = output_addr + os.sep + "tmp_if_bash_Defects4jGenTestcase"
+        checkout_addr = checkout_folder + os.sep + "checkout"
         # 保存loaded class 的文件的路径
-        loaded_classes_file = DEFECTS4J_PROJ_ADDR + os.sep + "framework" + os.sep + "projects" + os.sep + project_id + "loaded_classes" + os.sep + str(version_num) + ".src"
+        loaded_classes_file = DEFECTS4J_PROJ_ADDR + os.sep + "framework" + os.sep + "projects" + os.sep + project_id + "loaded_classes" + os.sep + str(
+            version_num) + ".src"
         cmd = ["bash",
                # "-x",
                BASH_DEFECT4J_GEN_TESTCASE,
@@ -61,7 +64,7 @@ def run(output_addr: str, project_id: str, version_num: int, bf_type: str, suite
                suite_num,  # $7
                str(test_id),  # $8
                str(budget),  # $9
-               tmp_folder,  # $10
+               checkout_addr,  # $10
                suite_src,  # $11
                loaded_classes_file,  # $12
                ]
@@ -70,7 +73,7 @@ def run(output_addr: str, project_id: str, version_num: int, bf_type: str, suite
         # testcase_addr = output_addr + os.sep + project_id + os.sep + suite_src + os.sep + suite_num
 
         # 删除临时文件
-        file_helper.rm(tmp_folder)
+        # file_helper.rm(tmp_folder)
 
         # 将生成的测试用例压缩包 拷贝至浅层目录
         suite_src_file = testsuite_output_address + os.sep + project_id + os.sep + suite_src + os.sep + suite_num + os.sep + project_id + "-" + str(
@@ -80,14 +83,21 @@ def run(output_addr: str, project_id: str, version_num: int, bf_type: str, suite
 
         return testsuite_output_address
     else:
-        return -1
+        return None
 
 
 if __name__ == "__main__":
-    suite_src = "mannual"
+    suite_src = "randoop"
     project_id = "Lang"
     version_num = 1
     bf_type = "b"
     output_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + str(version_num) + bf_type
-    result = run(output_addr=output_addr, project_id=project_id, version_num=version_num, bf_type=bf_type)
+    checkout_addr = output_addr
+    result = run(
+        output_addr=output_addr,
+        checkout_folder= checkout_addr,
+        project_id=project_id,
+        version_num=version_num,
+        bf_type=bf_type
+    )
     print(result)

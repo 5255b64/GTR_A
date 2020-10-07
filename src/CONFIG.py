@@ -63,7 +63,10 @@ PYTHON = "/home/gx/Documents/anaconda/envs/py36/bin/python"
 
 # jar包
 # # java的classpath
-JAR_CLASSPATH = "$CLASSPATH:" + JAR_FOLDER + os.sep + "commons-cli-1.4.jar:" + JAR_FOLDER + os.sep + "fastjson-1.2.62.jar"
+JAR_COMMONS_CLI = JAR_FOLDER + os.sep + "commons-cli-1.4.jar"
+JAR_FASTJSON = JAR_FOLDER + os.sep + "fastjson-1.2.62.jar"
+JAR_TM = JAR_FOLDER + os.sep + "tm.jar"
+JAR_CLASSPATH = "$CLASSPATH:" + JAR_COMMONS_CLI + ":" + JAR_FASTJSON + ":" + JAR_TM
 # JAR_CLASSPATH = "$CLASSPATH:" + JAR_FOLDER + os.sep + "commons-cli-1.4.jar:" + JAR_FOLDER + os.sep + "fastjson-1.2.62.jar:" + JAR_FOLDER + os.sep + "tm.jar"
 # # 一些jar包中的class的直接目录
 JAR_CLASS_ANT_BUILD_FILE_EDITOR = "sqslab.ecnu.edu.util.AntBuildFileEditor"
@@ -82,7 +85,6 @@ BASH_DEFECT4J_GET_TEST_RESULT = BASH_FOLDER + os.sep + "Defects4jGetTestResult.s
 BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT = BASH_FOLDER + os.sep + "RunMannualCaseWithJavaAgent.sh"
 BASH_RUN_MANNUAL_CASE = BASH_FOLDER + os.sep + "RunMannualCase.sh"
 BASH_RUN_MANNUAL_SINGLE_CASE_WITH_JAVAAGENT = BASH_FOLDER + os.sep + "RunMannualSingleCaseWithJavaAgent.sh"
-
 
 # 项目相关信息
 # # 项目名称list

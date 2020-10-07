@@ -30,7 +30,7 @@ def run(inputFileAddr: str, outputFileAddr: str, javaagentArgs: str, outputErrPa
 if __name__ == "__main__":
     run(
         inputFileAddr=DEFECTS4J_ANT_BUILD_TEMPLATE_ADDR,
-        outputFileAddr="/media/gx/0226E34626E338F5/GX/Study/ECNU/TestMinimization/py_classifier_2020/tmp_not_delete/defects4j.build.xml",
+        outputFileAddr="/tmp/tmp/defects4j.build.xml",
         javaagentArgs="hahaha",
-        outputErrPath="err",
-        outputAlltestPath="alltest")
+        outputErrPath="/tmp/tmp/err",
+        outputAlltestPath="/tmp/tmp/alltest")

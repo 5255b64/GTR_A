@@ -11,18 +11,17 @@ source $1
 source $2
 init
 
-export "TMP_DIR=$3"
-mkdir $3
+#export "TMP_DIR=$3"
+#mkdir $3
 
 
 
-project_id=$4     # $4
-version_num=$5       # $5
-bf_type=$6           # $6
+project_id=$4     # $3
+version_num=$5       # $4
+bf_type=$6           # $5
+suite_dir=$7           # $6
 
 version_id=$version_num$bf_type
-
-suite_dir=$7           # $7
 
 # Checkout
 # echo defects4j checkout -p $project_id -v $version_id -w $suite_dir

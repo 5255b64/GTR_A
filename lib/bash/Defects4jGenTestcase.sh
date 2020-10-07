@@ -33,7 +33,7 @@ suite_num=$7         # $7
 test_id=$8           # $8
 out_dir=$TMP_DIR
 budget=$9           # $9
-tmp_dir=${10}  # $10
+checkout_folder=${10}  # $10
 suite_src=${11}   # $11
 classes_file=${12} # $12
 suite_dir=$out_dir/$project_id/$suite_src/$suite_num
@@ -41,9 +41,9 @@ suite_dir=$out_dir/$project_id/$suite_src/$suite_num
 # Run Randoop and fix test suite
 # 生成测试用例（压缩包）
 # echo gen_tests.pl -g suite_src -p $project_id -v $version_id -n $test_id -o $out_dir -b $budget -t $tmp_dir/tmp_gen
-gen_tests.pl -g $suite_src -p $project_id -v $version_id -n $test_id -o $out_dir -b $budget -t $tmp_dir/tmp_gen
+gen_tests.pl -g $suite_src -p $project_id -v $version_id -n $test_id -o $out_dir -b $budget -t $checkout_folder
 # 对测试用例做fix 删除不可用的测试用例（压缩包即可）
-fix_test_suite.pl -p $project_id -d $suite_dir -t $tmp_dir/tmp_fix|| die "fix test suite"
+fix_test_suite.pl -p $project_id -d $suite_dir -t $checkout_folder|| die "fix test suite"
 
 
 

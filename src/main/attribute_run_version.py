@@ -112,8 +112,8 @@ def run(result_addr: str, middle_data_attribute_addr: str, tmp_root_folder: str,
     if suite_src != "mannual":
         time_stamp = time.time()
         attribute_step1_gen_test_suite_generated.run(
-            output_addr=middle_data_testsuite_addr,
-            tmp_root_fold=tmp_folder,
+            checkout_addr=middle_data_testsuite_addr,
+            tmp_fold=tmp_folder,
             project_id=project_id,
             version_num=version_num,
             bf_type=FIXED_BFTYPE_F,

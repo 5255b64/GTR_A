@@ -17,9 +17,9 @@ def run(output_junit_log_addr: str, project_id: str, version_num: int, bf_type: 
         # if_perl_RunTestcasesWithJavaagent.set_build_file_mannual(   # 对 所有 class 做插桩
         project_id=project_id,
         version_num=version_num,
-        outputErrPath="/dev/null",
+        output_err_path="/dev/null",
         output_alltest_path="/dev/null",
-        ant_build_file_addr=tmp_ant_build_file_addr,
+        output_build_file_addr=tmp_ant_build_file_addr,
     )
 
     # 生成ant日志

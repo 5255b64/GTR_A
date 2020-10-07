@@ -4,20 +4,21 @@
 gen testsuite
 """
 import glob
+import os
 
 from interface.bash import Defects4jCheckout, Defects4jGenTestcase
-from src.CONFIG import TMP_FOLDER
+from src.CONFIG import TMP_FOLDER, TMP_TEST_FOLDER
 from src.utils import sub_call_hook, file_helper
 
 
 #  1）生成测试用例
 #       out:   测试用例（原始）
-def run(output_addr: str, tmp_root_fold: str, project_id: str, version_num: int, bf_type: str,
+def run(output_addr: str, checkout_folder:str, project_id: str, version_num: int, bf_type: str,
         suite_num: str = "1", test_id: int = 1, budget: int = 20, suite_src: str = "randoop"):
     """
 
-    :param output_addr:     输出结果 原测试用例集的位置
-    :param tmp_root_fold:                       输出文件的临时存放地址地址
+    :param output_addr:                         输出结果 原测试用例集的位置
+    :param checkout_folder:                     checkout地址 若不存在checkout 则会自动生成
     :param project_id:                          项目名（如Lang）
                                                 Generate tests for this project id. See Project module for available project IDs.
     :param version_num:                         版本号 数字
@@ -29,68 +30,56 @@ def run(output_addr: str, tmp_root_fold: str, project_id: str, version_num: int,
     :param suite_src:                           使用的测试用例生成工具（randoop或者evosuite）
     :return:
     """
-    tmp_fold_addr = tmp_root_fold + "/tmp_step1"
-    file_helper.check_path_exists(tmp_fold_addr)
+    # 确保路径存在
+    file_helper.check_path_exists(output_addr)
 
-    # 生成测试用例 获得测试用例(压缩包）的地址
-    zip_testcase_addr = ""
+    # 返回值
+    return_ouput_testcase_addr = None
 
     if suite_src == "mannual":
-        # 获取手工测试用例
-        zip_testcase_addr = Defects4jCheckout.run(project_id=project_id, version_num=version_num,
-                                                  bf_type=bf_type, suite_num=suite_num, suite_src=suite_src,
-                                                  output_addr=tmp_fold_addr)
+        # TODO 获取手工测试用例
+        return_ouput_testcase_addr = Defects4jCheckout.run(
+            project_id=project_id,
+            version_num=version_num,
+            bf_type=bf_type,
+            suite_num=suite_num,
+            suite_src=suite_src,
+            output_addr=output_addr
+        )
     else:
         # 第三方工具生成测试用例
-        zip_testcase_addr = Defects4jGenTestcase.run(project_id=project_id, version_num=version_num,
-                                                     bf_type=bf_type, suite_num=suite_num, test_id=test_id,
-                                                     budget=budget, suite_src=suite_src,
-                                                     output_addr=tmp_fold_addr)
-    if str(zip_testcase_addr) == "-1":
-        raise Exception("测试用例生成出错")
+        # 默认会进行checkout
+        return_ouput_testcase_addr = Defects4jGenTestcase.run(
+            checkout_folder=checkout_folder,
+            project_id=project_id,
+            version_num=version_num,
+            bf_type=bf_type,
+            suite_num=suite_num,
+            suite_src=suite_src,
+            output_addr=output_addr,
+            test_id=test_id,
+            budget=budget
+        )
 
-    # 解压出来的文件的保存地址
-    unzip_file_addr = zip_testcase_addr + "/unzip_file"
-
-    file_helper.check_file_exists(unzip_file_addr)
-    # cmd = ["mkdir", "-p", unzip_file_addr]
-    # sub_call_hook.serial(cmd)
-
-    # 搜索所有.bz2压缩文件 并解压
-    for bz2_filename in glob.glob(zip_testcase_addr + '/*.bz2'):
-        # print(bz2_filename)
-        # 解压文件
-        cmd = "tar -jxvf " + bz2_filename + " -C " + unzip_file_addr
-        # print(cmd)
-        sub_call_hook.serial_none(cmd)
-
-    # # 保存解压出来的测试用例（原件）
-    # cmd = ["rm", "-rf", output_addr]
-    # sub_call_hook.serial(" ".join(cmd))
-    file_helper.rm(output_addr)
-    file_helper.cp(unzip_file_addr, output_addr)
-
-    # 保存压缩的测试用例（原件）
-    # cmd = ["rm", "-rf", output_addr]
-    # sub_call_hook.serial(" ".join(cmd))
-    # file_helper.check_path_exists(output_addr)
-    # for filename in os.listdir(zip_testcase_addr):
-    #     if filename.endswith("bz2"):
-    #         cmd = ["mv", zip_testcase_addr +"/" + filename, output_addr + "/" + filename]
-    #         sub_call_hook.serial(" ".join(cmd))
+    return return_ouput_testcase_addr
 
 
 if __name__ == "__main__":
-    output_unreduced_testsuite_addr = TMP_FOLDER + "/testsuite"
-    tmp_root_folder = TMP_FOLDER
+    suite_src = "randoop"
+    project_id = "Lang"
+    version_num = 1
+    bf_type = "b"
+    output_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + str(version_num) + bf_type
 
-    # cmd = ["rm", "-rf", output_unreduced_testsuite_addr]
-    # sub_call_hook.serial(" ".join(cmd))
-    file_helper.rm(output_unreduced_testsuite_addr)
+    # 提前checkout
+    # Defects4jCheckout.run(project_id=project_id, version_num=version_num, bf_type=bf_type,
+    #     output_addr=output_addr)
 
-    run(output_addr=output_unreduced_testsuite_addr,
-        tmp_root_fold=tmp_root_folder,
-        project_id="Lang",
-        version_num=1,
-        bf_type="f",
-        suite_src="randoop")
+    run(
+        checkout_folder=output_addr,
+        output_addr=output_addr,
+        project_id=project_id,
+        version_num=version_num,
+        bf_type=bf_type,
+        suite_src=suite_src
+    )
