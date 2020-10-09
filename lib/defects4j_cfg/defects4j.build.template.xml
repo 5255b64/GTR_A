@@ -134,7 +134,7 @@ project-specific build file ("project_id"/"project_id".build.xml) for the
         <!-- <junit printsummary="yes" haltonfailure="no" haltonerror="no" fork="no" showOutput="true"> -->
         <junit printsummary="yes" haltonfailure="no" haltonerror="no" fork="no" forkmode="perBatch" showOutput="true">
             <jvmarg value="$JAVAAGENT_ARGS_SYMBLE$" />
-<!--             <jvmarg value="-javaagent:/home/gx/Documents/TestMinimization/GTR_A/lib/jar/jacoco.jar=includes=org.apache.commons.lang3.*" /> -->
+<!--             <jvmarg value="-javaagent:/home/gx/Documents/TestMinimization/GTR_A/lib/jar/jacoco_old.jar=includes=org.apache.commons.lang3.*" /> -->
             <classpath>
                 <!-- Make sure that instrumented classes appear at the beginning of the
                      classpath -->
@@ -356,7 +356,7 @@ project-specific build file ("project_id"/"project_id".build.xml) for the
 
         <junit printsummary="yes" haltonfailure="no" haltonerror="no" fork="yes" forkmode="perBatch" showOutput="true">
             <jvmarg value="$JAVAAGENT_ARGS_SYMBLE$" />
-<!--             <jvmarg value="-javaagent:/home/gx/Documents/TestMinimization/GTR_A/lib/jar/jacoco.jar=includes=org.apache.commons.lang3.*" /> -->
+<!--             <jvmarg value="-javaagent:/home/gx/Documents/TestMinimization/GTR_A/lib/jar/jacoco_old.jar=includes=org.apache.commons.lang3.*" /> -->
             <classpath>
                 <!-- Make sure that instrumented classes appear at the beginning of the
                      classpath -->

@@ -1,4 +1,3 @@
-# TODO 修改所有
 """
 保存所需的全局变量
 """
@@ -53,7 +52,9 @@ TMP_TEST_FOLDER = TMP_FOLDER + "/test"
 # # # out/log 输出日志目录
 OUT_LOG_FOLDER = OUT_FOLDER + os.sep + "log"
 # # # out/testsuite 测试用例目录
-OUT_LOG_TESTSUITE = OUT_FOLDER + os.sep + "testsuite"
+OUT_TESTSUITE_FOLDER = OUT_FOLDER + os.sep + "testsuite"
+# # # out/mutation 变异测试数据目录
+OUT_MUTATION_FOLDER = OUT_FOLDER + os.sep + "mutation"
 
 # 外部依赖相关
 # # JVM java解释器
@@ -81,6 +82,7 @@ BASH_RUN_RANDOOP_WITH_DEFECTS4J = BASH_FOLDER + os.sep + "RunRandoopWithDefects4
 BASH_DEFECT4J_GEN_TESTCASE = BASH_FOLDER + os.sep + "Defects4jGenTestcase.sh"
 BASH_DEFECT4J_RUN_TEST_WITH_AGENT = BASH_FOLDER + os.sep + "Defects4jRunTestWithAgent.sh"
 BASH_DEFECT4J_CHECKOUT = BASH_FOLDER + os.sep + "Defects4jCheckout.sh"
+BASH_DEFECT4J_MUTATION = BASH_FOLDER + os.sep + "Defects4jMutation.sh"
 BASH_DEFECT4J_GET_TEST_RESULT = BASH_FOLDER + os.sep + "Defects4jGetTestResult.sh"
 BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT = BASH_FOLDER + os.sep + "RunMannualCaseWithJavaAgent.sh"
 BASH_RUN_MANNUAL_CASE = BASH_FOLDER + os.sep + "RunMannualCase.sh"

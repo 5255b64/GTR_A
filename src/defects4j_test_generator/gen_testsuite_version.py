@@ -6,8 +6,8 @@ import glob
 import os
 
 from interface.bash import Defects4jCheckout, Defects4jGenTestcase
-from src.CONFIG import TMP_FOLDER, TMP_TEST_FOLDER, PROJ_TEST_SOURCE_ADDR_LIST
-from src.utils import sub_call_hook, file_helper
+from src.CONFIG import TMP_TEST_FOLDER, PROJ_TEST_SOURCE_ADDR_LIST
+from src.utils import file_helper
 from utils import test_suite_fixer, bz2_helper
 
 
@@ -28,6 +28,10 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
     :param suite_src:                           使用的测试用例生成工具（randoop或者evosuite）
     :return:
     """
+    checkout_tmp_folder = checkout_folder
+
+    output_tmp_addr = output_addr
+
     # 确保路径存在
     file_helper.check_path_exists(output_addr)
 
@@ -41,11 +45,11 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
             project_id=project_id,
             version_num=version_num,
             bf_type=bf_type,
-            output_addr=output_addr
+            output_addr=checkout_tmp_folder
         )
         # 查找mannual测试用例
         # 不同的项目 其测试用例的存储路径不同
-        wordking_directory = output_addr + os.sep + "checkout"
+        wordking_directory = checkout_tmp_folder + os.sep + "checkout"
 
         testcase_source_addr = None
         for source_addr in PROJ_TEST_SOURCE_ADDR_LIST:
@@ -55,19 +59,19 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
         if testcase_source_addr is None:
             raise Exception("引用了记录之外的项目:\t" + project_id + "-" + str(version_num))
 
-        return_ouput_testcase_addr = output_addr + os.sep + "mannual"
+        return_ouput_testcase_addr = output_tmp_addr + os.sep + "mannual"
         file_helper.cp(testcase_source_addr, return_ouput_testcase_addr)
     else:
         # 第三方工具生成测试用例
         # 默认会进行checkout
         return_ouput_testcase_addr = Defects4jGenTestcase.run(
-            checkout_folder=checkout_folder,
+            checkout_folder=checkout_tmp_folder,
             project_id=project_id,
             version_num=version_num,
             bf_type=bf_type,
             suite_num=suite_num,
             suite_src=suite_src,
-            output_addr=output_addr,
+            output_addr=output_tmp_addr,
             test_id=test_id,
             budget=budget
         )
@@ -80,21 +84,22 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
             file_helper.cp(file, bkb_file)
             test_suite_fixer.fun(input_file_addr=bkb_file, output_file_addr=file)
     # 压缩
-    fixed_testsuite_address = output_addr + os.sep + suite_src + ".tar.bz2"
+    fixed_testsuite_address = output_tmp_addr + os.sep + suite_src + ".tar.bz2"
     bz2_helper.compress(return_ouput_testcase_addr, fixed_testsuite_address)
 
     return fixed_testsuite_address
 
 
 if __name__ == "__main__":
-    suite_src = "mannual"
-    project_id = "Lang"
-    version_num = 1
-    bf_type = "b"
-    output_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + str(version_num) + bf_type
+    suite_src = "randoop"
+    project_id = "Chart"
+    version_num = 2
+    bf_type = "f"
+    output_addr = TMP_TEST_FOLDER
+    checkout_folder = TMP_TEST_FOLDER
 
     run(
-        checkout_folder=output_addr,
+        checkout_folder=checkout_folder,
         output_addr=output_addr,
         project_id=project_id,
         version_num=version_num,

@@ -13,7 +13,7 @@ import os
 from CONFIG import TMP_TEST_FOLDER, JAVAAGENT_ARGS_PREFIX, DEFECTS4J_PROJ_INFO_ADDR, DEFECTS4J_ANT_BUILD_TEMPLATE_ADDR
 from defects4j_test_generator import gen_testsuite_version
 from interface.bash import Defects4jRunTestWithAgent
-from interface.java import if_java_AntBuildFileEditor
+from interface.java import AntBuildFileEditor
 
 
 def run(checkout_addr: str, testsuite_addr: str, output_junit_log_addr: str, tmp_build_file_addr: str, project_id: str,
@@ -96,7 +96,7 @@ def set_build_file(project_id: str, version_num: int, output_err_path: str, outp
             # 删除最后一个:号
             agent_args = agent_args[0:len(agent_args) - 2]
     # print(agent_args)
-    if_java_AntBuildFileEditor.run(
+    AntBuildFileEditor.run(
         inputFileAddr=DEFECTS4J_ANT_BUILD_TEMPLATE_ADDR,
         # outputFileAddr=DEFECTS4J_PROJ_BUILD_FILE_ADDR,
         outputFileAddr=output_build_file_addr,

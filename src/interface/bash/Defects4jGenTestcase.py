@@ -48,7 +48,7 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
         sys.stderr.write("Defects4jGenTestcase.py: suite_src只能是randoop或者evosuite")
 
     if is_passed:
-        testsuite_output_address = output_addr + os.sep + suite_src
+        testsuite_output_address = output_addr
         checkout_addr = checkout_folder + os.sep + "checkout"
         # 保存loaded class 的文件的路径
         loaded_classes_file = DEFECTS4J_PROJ_ADDR + os.sep + "framework" + os.sep + "projects" + os.sep + project_id + "loaded_classes" + os.sep + str(

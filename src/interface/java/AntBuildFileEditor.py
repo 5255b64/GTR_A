@@ -1,5 +1,3 @@
-# TODO 重构
-
 from src.utils import sub_call_hook
 from src.CONFIG import JAR_CLASSPATH, JAR_CLASS_ANT_BUILD_FILE_EDITOR, \
     DEFECTS4J_ANT_BUILD_TEMPLATE_ADDR, JVM

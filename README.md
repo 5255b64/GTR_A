@@ -33,6 +33,10 @@
         - -mannual
         - -randoop
         - -evosuite
+    - -mutation *保存变异测试数据*
+        - -mannual
+        - -randoop
+        - -evosuite
     
 3. -tmp *保存临时文件*
     - checkout *保存SUT的项目文件*
@@ -45,21 +49,31 @@
 ## TodoList
 - [ ] Setup
     - [x] 修改CONFIG.py配置文件
-    - [ ] 修改所有的interface
+    - [x] 修改所有的interface
     - [x] 修改所有的utils
 - [ ] 生成测试用例
-    - [ ] 人工测试用例
-    - [ ] randoop与evosuite
+    - [x] 人工测试用例
+    - [x] randoop与evosuite
 - [ ] 修改jacoco
-    - [ ] todo
+    - [x] 区分NORMAL桩和JUMP桩
 - [ ] 执行测试用例
-    - [ ] 修改build文件 插桩
-    - [ ] 执行用例 获取数据
+    - [x] 修改build文件 插桩
+    - [x] 执行用例 获取数据
       - [ ] 编写进程池
+- [x] 执行变异测试
+- [ ] 编写执行脚本
+    - [ ] 执行所有version 获取日志信息
 - [ ] 日志分析
-    - [ ] todo
-- [ ] 执行变异测试
-    - [ ] todo
+    - [ ] 编写testcase类
+      - [ ] 桩信息
+        - [ ] 桩类别（NORMAL、JUMP）
+    - [ ] 编写testclass类
+      - [ ] 包含的testcase列表
+    - [ ] 编写testsuite类
+      - [ ] 包含的testclass列表
+      - [ ] 变异测试结果
+    - [ ] 对象序列化
+      - [ ] 避免重复计算
 
 
 ​    
