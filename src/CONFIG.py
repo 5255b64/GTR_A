@@ -176,3 +176,6 @@ my_env = os.environ
 # IO 相关
 JACOCO_RETRY_TIME_MAX: int = 1  # jacoco失败后 最多的重试次数
 JACOCO_RETRY_TIME_DELAY = 0.001  # jacoco生成失败后 延时时间
+
+# 多进程相关
+PROCESS_NUM = 2
