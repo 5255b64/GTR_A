@@ -5,7 +5,8 @@ import os
 import sys
 import time
 
-from CONFIG import TMP_FOLDER
+from src.CONFIG import TMP_FOLDER
+from utils import file_helper
 
 out_file = "/dev/null"
 err_file = "/dev/null"
@@ -52,6 +53,7 @@ if __name__ == "__main__":
 
 def get_continue_dict():
     result = dict()
+    file_helper.check_file_exists(continue_file, with_blank_file=True)
     with open(continue_file, 'r') as f:
         line = f.readline()
         while line:
@@ -61,5 +63,5 @@ def get_continue_dict():
 
 
 def continue_log(logger_msg):
-    with open(continue_file, 'w') as f:
-        f.write(logger_msg+os.linesep)
+    with open(continue_file, 'a') as f:
+        f.write(logger_msg + os.linesep)

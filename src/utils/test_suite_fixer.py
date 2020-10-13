@@ -27,7 +27,8 @@ def fun(input_file_addr: str, output_file_addr: str):
     file_helper.cp(input_file_addr, output_file_addr)
     with open(input_file_addr, 'r') as f_before:
         with open(output_file_addr, 'w') as f_after:
-            package = ""
+            package_name = ""
+            class_name = ""
             line = f_before.readline()
             # 寻找package
             flag = True
@@ -35,8 +36,9 @@ def fun(input_file_addr: str, output_file_addr: str):
                 result_pkg = pattern_pkg.search(line)
                 result_import = pattern_import.search(line)
                 if result_pkg is not None:
-                    package = line.replace("package", "").replace(" ", "").replace(";", "").replace(os.linesep, "")
-                    # print(package)
+                    package_name = line.replace("package", "").replace(" ", "").replace(";", "").replace(
+                        os.linesep, "")
+                    # print(package_name)
                     flag = False
                 elif result_import is not None:
                     # print(line)
@@ -45,6 +47,8 @@ def fun(input_file_addr: str, output_file_addr: str):
                 f_after.write(line)
 
                 line = f_before.readline()
+            # 寻找 class name 根据.java文件名生成
+            class_name = input_file_addr.split(os.sep)[-1].replace(".java", "").replace(".bkb", "")
             # 搜索每一个以public void test开头的function
             pattern = re.compile(pattern_func)
             flag = False
@@ -63,10 +67,7 @@ def fun(input_file_addr: str, output_file_addr: str):
                         if "{" in line:
                             flag = False
                             lines = line.split("{", 2)
-                            if package == "":
-                                print_msg = method_name
-                            else:
-                                print_msg = package + "." + method_name
+                            print_msg = get_print_msg(package_name, class_name, method_name)
                             new_line = lines[0] + "{" + "System.out.println(\"TESTCASE " + print_msg + "\");" + lines[1]
                             # print(new_line, end="")
                             f_after.write(new_line)
@@ -79,10 +80,7 @@ def fun(input_file_addr: str, output_file_addr: str):
                     if "{" in line:
                         flag = False
                         lines = line.split("{", 2)
-                        if package == "":
-                            print_msg = method_name
-                        else:
-                            print_msg = package + "." + method_name
+                        print_msg = get_print_msg(package_name, class_name, method_name)
                         new_line = lines[0] + "{" + "System.out.println(\"TESTCASE " + print_msg + "\");" + lines[1]
                         # print(new_line, end="")
                         f_after.write(new_line)
@@ -92,7 +90,20 @@ def fun(input_file_addr: str, output_file_addr: str):
                 line = f_before.readline()
 
 
+def get_print_msg(package_name: str, class_name: str, method_name: str):
+    print_msg = ""
+    if package_name != "":
+        print_msg = package_name
+    if class_name != "":
+        if print_msg != "":
+            print_msg += "." + class_name
+        else:
+            print_msg = class_name
+    print_msg += "." + method_name
+    return print_msg
+
+
 if __name__ == "__main__":
-    output_addr = "/home/gx/Documents/TestMinimization/GTR_A/tmp/test/Lang/1b/mannual/org/apache/commons/lang3/ArrayUtilsTest.java"
+    output_addr = "/run/media/gx/仓库/GTR_A/out/testsuite/randoop/Chart/1/tmp_testsuite/RegressionTest0.java"
     input_addr = output_addr + ".bkb"
     fun(input_addr, output_addr)

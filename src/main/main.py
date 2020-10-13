@@ -3,7 +3,7 @@
 """
 import os
 
-from CONFIG import PROJ_LIST, PROJ_VERSION_NUM, OUT_FOLDER, CHECKOUT_FOLDER, OUT_LOG_FOLDER, OUT_MUTATION_FOLDER, \
+from src.CONFIG import PROJ_LIST, PROJ_VERSION_NUM, OUT_FOLDER, CHECKOUT_FOLDER, OUT_LOG_FOLDER, OUT_MUTATION_FOLDER, \
     TMP_LOG_FOLDER, OUT_TESTSUITE_FOLDER
 from defects4j_test_mutator import get_mutation_report
 from defects4j_test_runner import run_testsuite_with_agent
@@ -18,7 +18,7 @@ def run(proj_list: list):
     # 遍历
     for project_id in proj_list:
         for version_num in range(1, PROJ_VERSION_NUM[project_id] + 1):
-            for suite_src in ["mannual", "randoop", "evosuite"]:
+            for suite_src in ["manual", "randoop", "evosuite"]:
                 try:
                     logger_msg = project_id + "-" + str(version_num) + "-" + suite_src + "-"
                     logger.log_out(logger_msg + "测试生成-START")
@@ -45,13 +45,13 @@ def run(proj_list: list):
                     logger.log_out(logger_msg + "测试生成-END")
                     # 执行变异测试
                     logger.log_out(logger_msg + "变异测试-START")
-                    if suite_src == "mannual":
+                    if suite_src == "manual":
                         bf_type = "f"
                     checkout_addr = CHECKOUT_FOLDER + os.sep + project_id + os.sep + str(version_num) + bf_type
                     output_addr = OUT_MUTATION_FOLDER + os.sep + suite_src + os.sep + project_id + os.sep + str(
                         version_num)
-                    if suite_src == "mannual":
-                        input_suite_addr = "xxx"  # (对于mannual测试用例来说是不需要的）
+                    if suite_src == "manual":
+                        input_suite_addr = "xxx"  # (对于manual测试用例来说是不需要的）
                     else:
                         input_suite_addr = OUT_TESTSUITE_FOLDER + os.sep + suite_src + os.sep + project_id + os.sep + str(
                             version_num) + os.sep + suite_src + ".tar.bz2"

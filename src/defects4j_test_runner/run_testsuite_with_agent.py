@@ -10,7 +10,7 @@
 """
 import os
 
-from CONFIG import TMP_TEST_FOLDER, JAVAAGENT_ARGS_PREFIX, DEFECTS4J_PROJ_INFO_ADDR, DEFECTS4J_ANT_BUILD_TEMPLATE_ADDR
+from src.CONFIG import TMP_TEST_FOLDER, JAVAAGENT_ARGS_PREFIX, DEFECTS4J_PROJ_INFO_ADDR, DEFECTS4J_ANT_BUILD_TEMPLATE_ADDR
 from defects4j_test_generator import gen_testsuite_version
 from interface.bash import Defects4jRunTestWithAgent
 from interface.java import AntBuildFileEditor
@@ -38,7 +38,7 @@ def run(checkout_addr: str, testsuite_addr: str, output_junit_log_addr: str, tmp
     """
     # 1）进行checkout（不需要 步骤2会自动生成）
 
-    # 2）生成.bz2测试用例 对mannual情况做特殊处理
+    # 2）生成.bz2测试用例 对manual情况做特殊处理
     # 目标测试用例文件 若已存在则不生成
     # testsuite = testsuite_addr + os.sep + suite_src + os.sep + str(version_num) + bf_type + ".tar.bz2"
     # if not os.path.exists(testsuite):
@@ -107,7 +107,7 @@ def set_build_file(project_id: str, version_num: int, output_err_path: str, outp
 
 
 if __name__ == "__main__":
-    suite_src = "mannual"
+    suite_src = "manual"
     project_id = "Lang"
     version_num = 1
     bf_type = "b"

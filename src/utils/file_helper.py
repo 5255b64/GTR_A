@@ -18,7 +18,7 @@ def check_path_exists(path: str):
         os.makedirs(path)
 
 
-def check_file_exists(addr: str):
+def check_file_exists(addr: str, with_blank_file:bool = False):
     """
     判断文件是否存在
     若不存在则生成其上级路径
@@ -34,8 +34,9 @@ def check_file_exists(addr: str):
             if not os.path.isdir(addr2):
                 os.makedirs(addr2)
             # 生成空白文件
-            # with open(addr, 'w') as f:
-            #     f.write("")
+            if with_blank_file:
+                with open(addr, 'w') as f:
+                    f.write("")
         else:
             raise Exception("已存在路径 无法创建文件：\t" + addr)
 

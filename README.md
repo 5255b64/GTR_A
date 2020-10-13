@@ -26,15 +26,15 @@
     
 2. -out *保存输出文件*
     - -testsuite *保存生成的测试用例*
-        - -mannual
+        - -manual
         - -randoop
         - -evosuite
     - -log *保存执行之后生成的日志*
-        - -mannual
+        - -manual
         - -randoop
         - -evosuite
     - -mutation *保存变异测试数据*
-        - -mannual
+        - -manual
         - -randoop
         - -evosuite
     
@@ -46,36 +46,58 @@
 1. “out”文件夹与“tmp”文件夹可以重定向。
 2. 在defects4j的fixed与buggy版本中，只考虑buggy版本(*b)。
 
+## 冗余指标
+
+1. 基本冗余指标（父子集合冗余指标），子集合Cs与父集合Cf，先用父集合Cf减去子集合Cs，然后查看减去时候，Cs覆盖的某个probe p在父集合Cf中的数量是否仍大于0；若是，则Cs相对与Cf来说，关于p是冗余的；统计所有的probe的冗余情况，以冗余probe的数量百分比，作为基本冗余指标；
+   1. 测试用例testcase相对于测试类testclass的冗余(CaCl冗余)；
+   2. 测试用例testcase相对于测试套件testsuite的冗余(CaS冗余)；
+   3. 测试类testclass相对于测试套件testsuite的冗余(ClS冗余)；
+2. 细化冗余指标 考虑到基本冗余指标对于较大的父集合，会大概率将子集合判断为高冗余；因此，要对冗余指标进行细化，不只考虑probe是否被覆盖，还要计算probe被覆盖的次数；probe覆盖次数越高，冗余指标应该越大；
+
 ## TodoList
-- [ ] Setup
-    - [x] 修改CONFIG.py配置文件
-    - [x] 修改所有的interface
-    - [x] 修改所有的utils
-- [ ] 生成测试用例
-    - [x] 人工测试用例
-    - [x] randoop与evosuite
-- [ ] 修改jacoco
+### Setup
+- [x] 修改CONFIG.py配置文件
+- [x] 修改所有的interface
+- [x] 修改所有的utils
+### 用例生成
+- [x] 人工测试用例
+- [x] randoop与evosuite
+- [x] 测试用例静态插桩
+  - [ ] 在每个测试用例执行的第一行 print出包名、类名、方法名
+### 插桩
+- [x] jvm动态插桩
+    - [x] 修改jacoco
     - [x] 区分NORMAL桩和JUMP桩
-- [ ] 执行测试用例
-    - [x] 修改build文件 插桩
-    - [x] 执行用例 获取数据
-      - [ ] 编写进程池
+- [x] 修改build文件 插桩
+### 用例执行
+- [ ] 仅执行相关测试用例，从文件defects4j/projects/[proj_id]/relevant_tests/[version_num] 中查找相关测试用例；
+- [x] 执行用例 获取数据
+- [x] 编写进程池
 - [x] 执行变异测试
 - [ ] 编写执行脚本
     - [ ] 执行所有version 获取日志信息
     - [x] 多线程
     - [x] 断点续传
-- [ ] 日志分析
-    - [ ] 编写testcase类
-      - [ ] 桩信息
-        - [ ] 桩类别（NORMAL、JUMP）
-    - [ ] 编写testclass类
-      - [ ] 包含的testcase列表
-    - [ ] 编写testsuite类
-      - [ ] 包含的testclass列表
-      - [ ] 变异测试结果
-    - [ ] 对象序列化
-      - [ ] 避免重复计算
 
+### 日志分析
 
-​    
+- [x] 编写testcase类
+  - [x] 统计cover的所有probe
+  - [x] 桩信息probe类
+    - [x] 桩类别（NORMAL、JUMP）
+    - [x] 每个桩子被testcase覆盖的信息
+  - [ ] testcase的冗余信息
+    - [ ] （CaCl冗余）testCase相对于testClass的冗余
+    - [ ] （CaS冗余）testCase相对于testSuite的冗余
+- [x] 编写testclass类
+  - [x] 包含的testcase列表
+  - [x] 统计cover的所有probe
+  - [ ] testclass冗余信息
+    - [ ] （ClS冗余）testClass相对于testSuite的冗余
+- [x] 编写testsuite类
+  - [x] 包含的testclass列表
+  - [x] 统计插桩的probe总数
+  - [x] 统计cover的所有probe
+  - [ ] 变异测试结果
+- [ ] 对象序列化
+  - [ ] 避免重复计算

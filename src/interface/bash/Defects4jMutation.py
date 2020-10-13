@@ -12,7 +12,7 @@ from src.utils import sub_call_hook, file_helper
 
 
 def run(input_suite_addr: str, project_id: str, version_num: int, bf_type: str, output_addr: str,
-        suite_src: str = "not mannual"):
+        suite_src: str = "not manual"):
     """
 
     :param input_suite_addr:      输入测试用例的地址
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     project_id = "Lang"
     version_num = 1
     bf_type = "f"
-    suite_src = "mannual"
+    suite_src = "manual"
     # suite_src = "randoop"
     input_suite_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + str(
         version_num) + bf_type + os.sep + "1b.tar.bz2"

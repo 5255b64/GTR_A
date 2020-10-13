@@ -4,7 +4,7 @@
 """
 import os
 
-from CONFIG import TMP_TEST_FOLDER
+from src.CONFIG import TMP_TEST_FOLDER
 from interface.bash import Defects4jMutation
 from utils import file_helper
 
@@ -12,7 +12,7 @@ from utils import file_helper
 def run(input_suite_addr: str, project_id: str, version_num: int, bf_type: str, checkout_addr: str, output_addr: str,
         suite_src: str):
     """
-    :param input_suite_addr:        输入测试用例的地址(对于mannual测试用例来说是不需要的）
+    :param input_suite_addr:        输入测试用例的地址(对于manual测试用例来说是不需要的）
     :param project_id:              项目名（如Lang）
                                     Generate tests for this project id. See Project module for available project IDs.
     :param version_num:             版本号 数字
@@ -34,7 +34,7 @@ def run(input_suite_addr: str, project_id: str, version_num: int, bf_type: str, 
         output_addr=checkout_tmp_addr,
         suite_src=suite_src,
     )
-    if suite_src == "mannual":
+    if suite_src == "manual":
         bf_type = "b"
 
     # 将输出结果copy至output路径
@@ -55,8 +55,8 @@ if __name__ == "__main__":
     suite_src = "randoop"
     checkout_addr = TMP_TEST_FOLDER
     output_addr = TMP_TEST_FOLDER + os.sep + "mutation"
-    if suite_src == "mannual":
-        input_suite_addr = "xxx"  # (对于mannual测试用例来说是不需要的）
+    if suite_src == "manual":
+        input_suite_addr = "xxx"  # (对于manual测试用例来说是不需要的）
     else:
         input_suite_addr = checkout_addr + os.sep + project_id + os.sep + str(
             version_num) + bf_type + os.sep + suite_src + ".tar.bz2"

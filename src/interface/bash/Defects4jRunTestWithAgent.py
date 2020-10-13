@@ -26,7 +26,7 @@ def run(output_addr: str, checkout_addr: str, testsuite_addr: str, build_file: s
     :return:testcase_addr:      生成的测试用例地址
     """
     # 临时文件 ant日志
-    tmp_log = output_addr + "_ant"
+    tmp_ant_log = output_addr + "_ant"
 
     file_helper.check_file_exists(output_addr)
 
@@ -38,7 +38,7 @@ def run(output_addr: str, checkout_addr: str, testsuite_addr: str, build_file: s
            DEFECTS4J_ADD_PATH_FILE,  # $1
            DEFECTS4J_PRE_INCLUDE_FILE_ADDR,  # $2
            working_directory,  # $3
-           tmp_log,  # $4
+           tmp_ant_log,  # $4
            testsuite_addr,  # $5
            build_file,  # $6
            ]
@@ -47,10 +47,10 @@ def run(output_addr: str, checkout_addr: str, testsuite_addr: str, build_file: s
 
     # 分析ant日志 获取junit日志
 
-    parse(intput_ant_log=tmp_log, output_junit_log=output_addr)
+    parse(intput_ant_log=tmp_ant_log, output_junit_log=output_addr)
 
-    # 删除临时文件
-    # file_helper.rm(tmp_log)
+    # 删除临时文件(ant日志)
+    file_helper.rm(tmp_ant_log)
 
 
 def parse(intput_ant_log, output_junit_log):

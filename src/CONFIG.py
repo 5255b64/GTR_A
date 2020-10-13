@@ -9,8 +9,8 @@ MAIN_FOLDER = "/home/gx/Documents/TestMinimization/GTR_A"
 # # tmp目录 存储临时文件(需要时被创建 不需要时清空)
 TMP_FOLDER = MAIN_FOLDER + "/tmp"
 # # out目录
-OUT_FOLDER = MAIN_FOLDER + "/out"
-
+# OUT_FOLDER = MAIN_FOLDER + "/out"
+OUT_FOLDER = "/run/media/gx/仓库/GTR_A/out"   # 外部挂载目录
 # # 主目录之下
 # # # tmp/lib目录
 LIB_FOLDER = MAIN_FOLDER + os.sep + "lib"
@@ -84,9 +84,9 @@ BASH_DEFECT4J_RUN_TEST_WITH_AGENT = BASH_FOLDER + os.sep + "Defects4jRunTestWith
 BASH_DEFECT4J_CHECKOUT = BASH_FOLDER + os.sep + "Defects4jCheckout.sh"
 BASH_DEFECT4J_MUTATION = BASH_FOLDER + os.sep + "Defects4jMutation.sh"
 BASH_DEFECT4J_GET_TEST_RESULT = BASH_FOLDER + os.sep + "Defects4jGetTestResult.sh"
-BASH_RUN_MANNUAL_CASE_WITH_JAVAAGENT = BASH_FOLDER + os.sep + "RunMannualCaseWithJavaAgent.sh"
-BASH_RUN_MANNUAL_CASE = BASH_FOLDER + os.sep + "RunMannualCase.sh"
-BASH_RUN_MANNUAL_SINGLE_CASE_WITH_JAVAAGENT = BASH_FOLDER + os.sep + "RunMannualSingleCaseWithJavaAgent.sh"
+BASH_RUN_manual_CASE_WITH_JAVAAGENT = BASH_FOLDER + os.sep + "RunmanualCaseWithJavaAgent.sh"
+BASH_RUN_manual_CASE = BASH_FOLDER + os.sep + "RunmanualCase.sh"
+BASH_RUN_manual_SINGLE_CASE_WITH_JAVAAGENT = BASH_FOLDER + os.sep + "RunmanualSingleCaseWithJavaAgent.sh"
 
 # 项目相关信息
 # # 项目名称list
@@ -178,4 +178,13 @@ JACOCO_RETRY_TIME_MAX: int = 1  # jacoco失败后 最多的重试次数
 JACOCO_RETRY_TIME_DELAY = 0.001  # jacoco生成失败后 延时时间
 
 # 多进程相关
+# # 并行进程数
 PROCESS_NUM = 2
+
+# 日志分析相关
+# # testcase字符串前缀
+TESTCASE_STR_PREFIX = "TESTCASE"
+# # probe cover 字符串前缀
+PROBE_COVER_PREFIX = "ACCURATE_PROBE"
+# # probe cover 字符串前缀
+PROBE_ID_PREFIX = "PROBE_ID"

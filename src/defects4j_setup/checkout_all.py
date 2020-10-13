@@ -3,7 +3,7 @@
 """
 import os
 
-from CONFIG import PROJ_LIST, PROJ_VERSION_NUM, CHECKOUT_FOLDER
+from src.CONFIG import PROJ_LIST, PROJ_VERSION_NUM, CHECKOUT_FOLDER
 from defects4j_setup import checkout_version
 
 

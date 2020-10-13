@@ -3,7 +3,7 @@
 """
 import os
 
-from CONFIG import TMP_TEST_FOLDER
+from src.CONFIG import TMP_TEST_FOLDER
 from interface.bash import Defects4jCheckout
 
 
@@ -22,7 +22,8 @@ def run(project_id: str, version_num: int, bf_type: str, output_addr: str):
 
 if __name__ == "__main__":
     project_id = "Lang"
-    version_num = 1
+    version_num = 2
     bf_type = "b"
     output_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + str(version_num) + bf_type
+    # output_addr = TMP_TEST_FOLDER
     run(project_id=project_id, version_num=version_num, bf_type=bf_type, output_addr=output_addr)

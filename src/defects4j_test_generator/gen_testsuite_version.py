@@ -2,13 +2,11 @@
 针对一个version
 gen testsuite
 """
-import glob
 import os
 
-from interface.bash import Defects4jCheckout, Defects4jGenTestcase
-from src.CONFIG import TMP_TEST_FOLDER, PROJ_TEST_SOURCE_ADDR_LIST
-from src.utils import file_helper
-from utils import test_suite_fixer, bz2_helper
+from src.interface.bash import Defects4jCheckout, Defects4jGenTestcase
+from src.CONFIG import TMP_TEST_FOLDER, PROJ_TEST_SOURCE_ADDR_LIST, DEFECTS4J_PROJ_INFO_ADDR
+from src.utils import file_helper, test_suite_fixer, bz2_helper
 
 
 def run(output_addr: str, checkout_folder: str, project_id: str, version_num: int, bf_type: str,
@@ -36,9 +34,9 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
     file_helper.check_path_exists(output_addr)
 
     # 返回值
-    return_ouput_testcase_addr = None
+    tmp_output_testcase_addr = None
 
-    if suite_src == "mannual":
+    if suite_src == "manual":
         # 获取手工测试用例
         # 先checkout 然后根据test可能的路径进行查找
         Defects4jCheckout.run(
@@ -47,7 +45,7 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
             bf_type=bf_type,
             output_addr=checkout_tmp_folder
         )
-        # 查找mannual测试用例
+        # 查找manual测试用例
         # 不同的项目 其测试用例的存储路径不同
         wordking_directory = checkout_tmp_folder + os.sep + "checkout"
 
@@ -59,12 +57,12 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
         if testcase_source_addr is None:
             raise Exception("引用了记录之外的项目:\t" + project_id + "-" + str(version_num))
 
-        return_ouput_testcase_addr = output_tmp_addr + os.sep + "mannual"
-        file_helper.cp(testcase_source_addr, return_ouput_testcase_addr)
+        tmp_output_testcase_addr = output_tmp_addr + os.sep + "manual"
+        file_helper.cp(testcase_source_addr, tmp_output_testcase_addr)
     else:
         # 第三方工具生成测试用例
         # 默认会进行checkout
-        return_ouput_testcase_addr = Defects4jGenTestcase.run(
+        tmp_output_testcase_addr = Defects4jGenTestcase.run(
             checkout_folder=checkout_tmp_folder,
             project_id=project_id,
             version_num=version_num,
@@ -76,24 +74,40 @@ def run(output_addr: str, checkout_folder: str, project_id: str, version_num: in
             budget=budget
         )
     # 修改所有测试用例 并压缩
-    # 修改测试用例
-    # for file in os.listdir(return_ouput_testcase_addr):
-    for file in file_helper.getallfile(return_ouput_testcase_addr):
-        if file.endswith(".java"):
-            bkb_file = file + ".bkb"
-            file_helper.cp(file, bkb_file)
-            test_suite_fixer.fun(input_file_addr=bkb_file, output_file_addr=file)
+    if suite_src != "manual":
+        for file in file_helper.getallfile(tmp_output_testcase_addr):
+            if file.endswith(".java"):
+                bkb_file = file + ".bkb"
+                file_helper.cp(file, bkb_file)
+                test_suite_fixer.fun(input_file_addr=bkb_file, output_file_addr=file)
+    else:
+        # manual情况做特殊处理
+        tmp_tmp_ouput_testcase_addr = tmp_output_testcase_addr + "_tmp"
+        file_helper.check_path_exists(tmp_tmp_ouput_testcase_addr)
+        relevant_tests_file = DEFECTS4J_PROJ_INFO_ADDR + os.sep + project_id + os.sep + "relevant_tests" + os.sep + str(
+            version_num)
+        with open(relevant_tests_file, 'r') as f:
+            line = f.readline()
+            while line:
+                test_case_file = tmp_output_testcase_addr + os.sep + line.replace(os.linesep, "").replace(".",
+                                                                                                         os.sep) + ".java"
+                tmp_test_case_file = tmp_tmp_ouput_testcase_addr + os.sep + line.replace(os.linesep, "").replace(".",
+                                                                                                                 os.sep) + ".java"
+                test_suite_fixer.fun(input_file_addr=test_case_file, output_file_addr=tmp_test_case_file)
+                line = f.readline()
+        tmp_output_testcase_addr = tmp_tmp_ouput_testcase_addr
+
     # 压缩
     fixed_testsuite_address = output_tmp_addr + os.sep + suite_src + ".tar.bz2"
-    bz2_helper.compress(return_ouput_testcase_addr, fixed_testsuite_address)
+    bz2_helper.compress(tmp_output_testcase_addr, fixed_testsuite_address)
 
     return fixed_testsuite_address
 
 
 if __name__ == "__main__":
-    suite_src = "randoop"
-    project_id = "Chart"
-    version_num = 2
+    suite_src = "manual"
+    project_id = "Lang"
+    version_num = 1
     bf_type = "f"
     output_addr = TMP_TEST_FOLDER
     checkout_folder = TMP_TEST_FOLDER
