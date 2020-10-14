@@ -10,7 +10,9 @@ from utils import file_helper
 
 out_file = "/dev/null"
 err_file = "/dev/null"
-continue_file = TMP_FOLDER + os.sep + "continue.log"
+
+
+# continue_file = TMP_FOLDER + os.sep + "continue.log"
 
 
 def log_out(string: str):
@@ -51,10 +53,10 @@ if __name__ == "__main__":
     log_out("hahaha")
 
 
-def get_continue_dict():
+def get_continue_dict(file: str):
     result = dict()
-    file_helper.check_file_exists(continue_file, with_blank_file=True)
-    with open(continue_file, 'r') as f:
+    file_helper.check_file_exists(file, with_blank_file=True)
+    with open(file, 'r') as f:
         line = f.readline()
         while line:
             result[line.replace(os.linesep, "")] = 0
@@ -62,6 +64,6 @@ def get_continue_dict():
     return result
 
 
-def continue_log(logger_msg):
-    with open(continue_file, 'a') as f:
+def continue_log(file: str, logger_msg: str):
+    with open(file, 'a') as f:
         f.write(logger_msg + os.linesep)

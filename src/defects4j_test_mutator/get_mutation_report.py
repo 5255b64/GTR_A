@@ -35,7 +35,9 @@ def run(input_suite_addr: str, project_id: str, version_num: int, bf_type: str, 
         suite_src=suite_src,
     )
     if suite_src == "manual":
-        bf_type = "b"
+        # TODO manual不能使用buggy版本进行mutate 否则会不成功
+        # bf_type = "b"
+        bf_type = "f"
 
     # 将输出结果copy至output路径
     file_helper.cp(checkout_tmp_addr + os.sep + "checkout" + os.sep + "mutants.log", output_tmp_addr

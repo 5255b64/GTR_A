@@ -55,6 +55,8 @@ OUT_LOG_FOLDER = OUT_FOLDER + os.sep + "log"
 OUT_TESTSUITE_FOLDER = OUT_FOLDER + os.sep + "testsuite"
 # # # out/mutation 变异测试数据目录
 OUT_MUTATION_FOLDER = OUT_FOLDER + os.sep + "mutation"
+# # # out/mutation 变异测试数据目录
+OUT_EXTRACTED_DATA_FOLDER = OUT_FOLDER + os.sep + "extracted_data"
 
 # 外部依赖相关
 # # JVM java解释器
@@ -180,6 +182,10 @@ JACOCO_RETRY_TIME_DELAY = 0.001  # jacoco生成失败后 延时时间
 # 多进程相关
 # # 并行进程数
 PROCESS_NUM = 2
+# # 断点续传 保存已完成的version信息
+CONTINUE_FINISHED_FILE = TMP_FOLDER + os.sep + "continue.log"
+# # 断点续传 保存存在问题的version信息
+CONTINUE_ERROR_FILE = TMP_FOLDER + os.sep + "error_version.log"
 
 # 日志分析相关
 # # testcase字符串前缀
