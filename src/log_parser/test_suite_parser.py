@@ -19,7 +19,9 @@ class TestSuite:
                                 key为testclass的id
                                 value为testclass对象
         test_class_ptr          当前parse到的test_class
-        probe_dict:dict         当前testsuite的所有probe key为probe_id value=被cover的次数
+        probe_dict:dict         当前testsuite的所有probe
+                                key为probe_id
+                                value=被cover的次数
         probe_inst_dict:dict    插入的所有桩 key=probe_id value=probe_type
         """
         self.test_suite_name = ""
@@ -28,7 +30,7 @@ class TestSuite:
         self.probe_dict = dict()  # probe cover info
         self.probe_inst_dict = dict()
 
-    def parse_line(self, line: str):
+    def parse_line(self, line: str, isDebug: bool = False):
         tmp_list = line.replace(os.linesep, "").split(" ")
         if line.startswith(TESTCASE_STR_PREFIX):
             if len(tmp_list) is 2:
@@ -40,17 +42,19 @@ class TestSuite:
                     self.test_class_dict[test_class_name] = self.test_class_ptr
                 else:
                     self.test_class_ptr = self.test_class_dict[test_class_name]
-                self.test_class_ptr.parse_line(line)
+                self.test_class_ptr.parse_line(line, isDebug=isDebug)
             else:
-                print("TestSuite.parse_line:字符串格式有误-\"" + line + "\"", file=sys.stderr)
+                if isDebug:
+                    print("TestSuite.parse_line:字符串格式有误-\"" + line + "\"", file=sys.stderr)
                 return False
             return True
         elif line.startswith(PROBE_COVER_PREFIX):
             # 发现probe 调用TestClass.parse_line
             if self.test_class_ptr is not None and len(tmp_list) is 2:
-                self.test_class_ptr.parse_line(line)
+                self.test_class_ptr.parse_line(line, isDebug=isDebug)
             else:
-                print("TestSuite.parse_line:testclass为None的情况下发现probe-\"" + line + "\"", file=sys.stderr)
+                if isDebug:
+                    print("TestSuite.parse_line:testclass为None的情况下发现probe-\"" + line + "\"", file=sys.stderr)
                 return False
             return True
         elif line.startswith(PROBE_ID_PREFIX):
@@ -60,10 +64,12 @@ class TestSuite:
                 probe_type = tmp_list[2]
                 self.probe_inst_dict[probe_id] = probe_type
             else:
-                print("TestSuite.parse_line:字符串格式有误-\"" + line + "\"", file=sys.stderr)
+                if isDebug:
+                    print("TestSuite.parse_line:字符串格式有误-\"" + line + "\"", file=sys.stderr)
                 return False
             return True
-        print("TestSuite.parse_line:未定义的前缀-\"" + line + "\"", file=sys.stderr)
+        if isDebug:
+            print("TestSuite.parse_line:未定义的前缀-\"" + line + "\"", file=sys.stderr)
         return False
 
     def set_name(self, name: str):
@@ -82,7 +88,7 @@ class TestSuite:
         return result
 
     def update_probe_dict(self):
-        self.probe_dict = dict()    # probe cover info
+        self.probe_dict = dict()  # probe cover info
         for test_class in self.test_class_dict.values():
             # 对test_class做一个update
             test_class.update_probe_dict()

@@ -51,12 +51,12 @@ def run(input_suite_addr: str, project_id: str, version_num: int, bf_type: str, 
 
 
 if __name__ == "__main__":
-    project_id = "Chart"
+    project_id = "Lang"
     version_num = 2
     bf_type = "f"
-    suite_src = "randoop"
-    checkout_addr = TMP_TEST_FOLDER
-    output_addr = TMP_TEST_FOLDER + os.sep + "mutation"
+    suite_src = "manual"
+    checkout_addr = TMP_TEST_FOLDER + os.sep + project_id
+    output_addr = TMP_TEST_FOLDER + os.sep + project_id + os.sep + "mutation"
     if suite_src == "manual":
         input_suite_addr = "xxx"  # (对于manual测试用例来说是不需要的）
     else:

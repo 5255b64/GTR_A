@@ -37,6 +37,10 @@
         - -manual
         - -randoop
         - -evosuite
+    - -extracted_data *保存从日志中提取的数据*
+        - -manual
+        - -randoop
+        - -evosuite
     
 3. -tmp *保存临时文件*
     - checkout *保存SUT的项目文件*
@@ -79,9 +83,6 @@
     - [ ] 执行所有version 获取日志信息
     - [x] 多线程
     - [x] 断点续传
-- [ ] 其他
-    - [ ] evosuite的测试用例没有cover任何代码
-    - [ ] manual的mutation没有结果 可能是bftype的问题
 
 ### 日志分析
 
@@ -109,18 +110,18 @@
 ### 数据表格展示设计
 
 - [ ] 表1 被测对象介绍 SUTs used in the experiment
-  - [ ] 被测对象名 SUT
-  - [ ] 版本数量 num of versions
+  - [x] 被测对象名 SUT
+  - [x] 版本数量 num of versions
   - [ ] 涉及到的代码行数（根据版本数平均） average LOC
   - [ ] 涉及到的代码分支数（ 根据版本数平均）average number of branches
   - [ ] 涉及到的类数（根据版本数平均） average number of classes
 - [ ] 表2  测试用例介绍 Test suite of SUTs
-  - [ ] 被测程序 SUT 
-  - [ ] 测试用例代码行（平均）average LOC
-  - [ ] 测试类数（平均）average test class number
+  - [x] 被测程序 SUT 
+  - [x] 测试用例代码行（平均）average LOC
+  - [x] 测试类数（平均）average test class number
   - [ ] 测试方法数（平均）average test method number
 - [ ] 表3-1 覆盖率信息 Coverage information
-  - [ ] 被测程序 SUT
+  - [x] 被测程序 SUT
   - [ ] manual
     - [ ] 覆盖率 Coverage
       - [ ] 行覆盖率（平均） statement
@@ -138,25 +139,25 @@
   - [ ] evosuite
     - [ ] 同上
 - [ ] 表3-3 冗余指标
-  - [ ] SUT 被测对象
-  - [ ] manual
-    - [ ] 基本冗余指标
-      - [ ] 完全冗余冗余测试方法的百分比 the coverage of fully redundant test methods
-        - [ ] CaCl指标 相对于classes
-        - [ ] CaS指标 相对于suite
-      - [ ] 完全冗余测试类的百分比 the coverage of fully redundant test classes
-        - [ ] ClS指标 相对于suite
-    - [ ] 细化冗余指标 // TODO
-      - [ ] 测试方法 test method
-        - [ ] CaCl指标 相对于classes
-        - [ ] CaS指标 相对于suite
-      - [ ] 测试类 test class
-        - [ ] ClS指标 相对于suite
-      - [ ] 测试套件 test suite
-        - [ ] 相对于自身 SS 指标
-        - [ ] 相对于所有 行/分支 （包括未覆盖的部分）
-  - [ ] randoop
-    - [ ] 同上
+  - [x] SUT 被测对象
+  - [x] manual
+    - [x] 基本冗余指标
+      - [x] 完全冗余冗余测试方法的百分比 the coverage of fully redundant test methods
+        - [x] CaCl指标 相对于classes
+        - [x] CaS指标 相对于suite
+      - [x] 完全冗余测试类的百分比 the coverage of fully redundant test classes
+        - [x] ClS指标 相对于suite
+    - [x] 细化冗余指标 // TODO
+      - [x] 测试方法 test method
+        - [x] CaCl指标 相对于classes
+        - [x] CaS指标 相对于suite
+      - [x] 测试类 test class
+        - [x] ClS指标 相对于suite
+      - [x] 测试套件 test suite
+        - [x] 相对于自身 SS 指标
+        - [x] 相对于所有 行/分支 （包括未覆盖的部分）
+  - [x] randoop
+    - [x] 同上
   - [ ] evosuite
     - [ ] 同上
 - [ ] 表4/图 冗余指标与版本之间的联系
@@ -164,18 +165,25 @@
   - [ ] 预计冗余指标会不断增大；
 - [ ] 表5 bug reveal 测试用例 的冗余情况
   - [ ] // TODO
-- [ ] RQ research question
-  - [ ] RQ1
-    - [ ] 自动化生成的测试用例，是否相比于manual用例来说，更容易产生冗余？
-    - [ ] Are automatically generated testsuite more prone to redundancy?
-  - [ ] RQ2
-    - [ ] 自动化生成的测试用例，其产生冗余的主要原因是什么？
-    - [ ] What are the main reasons for the redundancy of automated generated test suite?
-    - [ ] 根据测试粒度，test suite的SS冗余指标，test class/method 的冗余指标，判断在哪一层面，冗余突然变大。
-      - [ ] 如果在test method层面冗余就很大，说明test class中存在过多相似的 test case；
-      - [ ] 如果在test class层面冗余很大/或者增大，说明存在过多相似的 test class；
-      - [ ] 如果SS指标过大，说明 test suite 本身冗余很大，或者覆盖率较低；// TODO 有待商榷
-  - [ ] RQ3
-    - [ ] 使用不同的覆盖率准则，是否能够得到更精确的结果？
-    - [ ] // 有待商榷
 
+### RQ research question
+
+- [ ] RQ1
+  - [ ] 自动化生成的测试用例，是否相比于manual用例来说，更容易产生冗余？
+  - [ ] Are automatically generated testsuite more prone to redundancy?
+- [ ] RQ2
+  - [ ] 自动化生成的测试用例，其产生冗余的主要原因是什么？
+  - [ ] What are the main reasons for the redundancy of automated generated test suite?
+  - [ ] 根据测试粒度，test suite的SS冗余指标，test class/method 的冗余指标，判断在哪一层面，冗余突然变大。
+    - [ ] 如果在test method层面冗余就很大，说明test class中存在过多相似的 test case；
+    - [ ] 如果在test class层面冗余很大/或者增大，说明存在过多相似的 test class；
+    - [ ] 如果SS指标过大，说明 test suite 本身冗余很大，或者覆盖率较低；// TODO 有待商榷
+- [ ] RQ3
+  - [ ] OPT指标与BASE指标相比，是否能够发现更细致的冗余信息。
+
+### 其他
+
+- [ ] evosuite的测试用例没有cover任何代码
+- [ ] manual的mutation没有结果 可能是bftype的问题
+- [ ] 存储空间不足 Lang-47 以及之后的 evosuite均没有结果
+- [ ] 

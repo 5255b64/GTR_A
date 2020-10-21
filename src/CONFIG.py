@@ -7,10 +7,11 @@ import os
 # # 主目录
 MAIN_FOLDER = "/home/gx/Documents/TestMinimization/GTR_A"
 # # tmp目录 存储临时文件(需要时被创建 不需要时清空)
-TMP_FOLDER = MAIN_FOLDER + "/tmp"
+# TMP_FOLDER = MAIN_FOLDER + "/tmp"
+TMP_FOLDER = "/run/media/gx/Garage/GTR_A/tmp"   # 外部挂载目录
 # # out目录
 # OUT_FOLDER = MAIN_FOLDER + "/out"
-OUT_FOLDER = "/run/media/gx/仓库/GTR_A/out"   # 外部挂载目录
+OUT_FOLDER = "/run/media/gx/Garage/GTR_A/out"   # 外部挂载目录
 # # 主目录之下
 # # # tmp/lib目录
 LIB_FOLDER = MAIN_FOLDER + os.sep + "lib"
@@ -194,3 +195,9 @@ TESTCASE_STR_PREFIX = "TESTCASE"
 PROBE_COVER_PREFIX = "ACCURATE_PROBE"
 # # probe cover 字符串前缀
 PROBE_ID_PREFIX = "PROBE_ID"
+
+# 数据提取相关
+REDUNDANCY_FUNC_TYPE = ["BASE", "OPT"]
+COVERAGE_TYPE = ["NORMAL", "JUMP"]
+# REDUNDANCY_INDEX_TYPE = ["CaCl", "CaS", "ClS", "SS"] # 不考虑SS SS冗余值恒定为0 没有实际意义
+REDUNDANCY_INDEX_TYPE = ["CaCl", "CaS", "ClS"]

@@ -30,7 +30,7 @@ version_id=$version_num$bf_type
 defects4j checkout -p $project_id -v $version_id -w $checkout_addr
 
 # Mutation
-if [ $suite_src == "mannual" ]; then
+if [ $suite_src == "manual" ]; then
   defects4j mutation -w $checkout_addr
 else
   defects4j mutation -w $checkout_addr -s $suite_addr

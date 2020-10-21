@@ -20,7 +20,7 @@ class Probe:
         # self.probe_type = ""  # 桩类型
         self.probe_covered_times = 0
 
-    def parse(self, probe_str: str):
+    def parse(self, probe_str: str, isDebug:bool=False):
         """
         ”PROBE_ID“为probe的前缀标识
         :param probe_str:   桩表示字符串 格式为
@@ -33,7 +33,8 @@ class Probe:
             self.probe_name = tmp_list[1]
             return True
         else:
-            print("Probe.parse:字符串格式有误-\"" + probe_str + "\"", file=sys.stderr)
+            if isDebug:
+                print("Probe.parse:字符串格式有误-\"" + probe_str + "\"", file=sys.stderr)
             return False
 
     def to_string(self):

@@ -32,17 +32,18 @@ class TestCase:
         self.ca_cl_redundancy = -1  # （CaCl冗余）
         self.ca_s_redundancy = -1   # （CaS冗余）
 
-    def parse_line(self, line: str):
+    def parse_line(self, line: str, isDebug:bool=False):
         tmp_list = line.replace(os.linesep, "").split(" ")
         if len(tmp_list) is 2 and tmp_list[0] == TESTCASE_STR_PREFIX:
             self.test_case_name = tmp_list[1]
         elif len(tmp_list) is 2 and tmp_list[0] == PROBE_COVER_PREFIX:
             tmp_probe = Probe()
             tmp_probe.cover_one_more_time()
-            if tmp_probe.parse(line):
+            if tmp_probe.parse(line,isDebug=isDebug):
                 self.add_probe(tmp_probe)
         else:
-            print("TestCase.parse_line:字符串格式有误-\"" + line + "\"", file=sys.stderr)
+            if isDebug:
+                print("TestCase.parse_line:字符串格式有误-\"" + line + "\"", file=sys.stderr)
             return False
         return True
 

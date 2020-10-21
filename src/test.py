@@ -1,4 +1,7 @@
-x = {"a": 1, "b": 2}
-y = {"b": 3, "c": 4}
-# x.update(y)
-print(x)
+import csv
+
+file_name = "/run/media/gx/Garage/GTR_A/out/mutation/evosuite/Chart/1/evosuite/summary.csv"
+with open(file_name, "r") as f:
+    cr = csv.reader(f)
+    for row in cr:
+        print(row)
